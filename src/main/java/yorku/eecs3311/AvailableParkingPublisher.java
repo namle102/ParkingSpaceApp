@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AvailableParkingPublisher {
-	private List<ParkingSpaceObserver> _observers = new ArrayList<ParkingSpaceObserver>();
+	private List<AvailableParkingObserver> _observers = new ArrayList<AvailableParkingObserver>();
 	private List<ParkingComponent> _parkingSpots;
 	public List<ParkingComponent> getParkingSpots(){
 		return this._parkingSpots;
@@ -19,12 +19,12 @@ public class AvailableParkingPublisher {
 		this.notifyAllObservers();
 	}
 	
-	public void attachObserver(ParkingSpaceObserver observer) {
+	public void attachObserver(AvailableParkingObserver observer) {
 		this._observers.add(observer);
 	}
 	
 	public void notifyAllObservers() {
-		for(ParkingSpaceObserver observer: _observers) {
+		for(AvailableParkingObserver observer: _observers) {
 			observer.update();
 		}
 	}

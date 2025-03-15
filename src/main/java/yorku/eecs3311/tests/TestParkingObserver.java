@@ -1,9 +1,9 @@
 package yorku.eecs3311.tests;
 
-import yorku.eecs3311.ParkingSpaceObserver;
+import yorku.eecs3311.AvailableParkingObserver;
 import yorku.eecs3311.AvailableParkingPublisher;
 
-class TestParkingObserver extends ParkingSpaceObserver {
+class TestParkingObserver extends AvailableParkingObserver {
 
 	private boolean _hasUpdated;
 	

@@ -1,6 +1,6 @@
 package yorku.eecs3311;
 
-public abstract class ParkingSpaceObserver {
+public abstract class AvailableParkingObserver {
 	protected AvailableParkingPublisher subject;
 	public abstract void update();
 }
