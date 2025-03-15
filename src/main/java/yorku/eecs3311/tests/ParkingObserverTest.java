@@ -4,11 +4,11 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import yorku.eecs3311.ParkingSpacePublisher;
+import yorku.eecs3311.AvailableParkingPublisher;
 
 
 public class ParkingObserverTest {
-	ParkingSpacePublisher publisher = new ParkingSpacePublisher();
+	AvailableParkingPublisher publisher = new AvailableParkingPublisher();
 	TestParkingObserver observer = new TestParkingObserver(publisher);
 	TestParkingObserver observer2 = new TestParkingObserver(publisher);
 	@Test

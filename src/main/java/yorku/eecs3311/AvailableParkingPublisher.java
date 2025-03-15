@@ -2,7 +2,7 @@ package yorku.eecs3311;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ParkingSpacePublisher {
+public class AvailableParkingPublisher {
 	private List<ParkingSpaceObserver> _observers = new ArrayList<ParkingSpaceObserver>();
 	private List<ParkingComponent> _parkingSpots;
 	public List<ParkingComponent> getParkingSpots(){
