@@ -1,5 +1,9 @@
 package yorku.eecs3311;
 
+import javax.swing.SwingUtilities;
+
+import yorku.eecs3311.gui.MainWindow;
+
 public class Main {
 
 	public static void main(String[] args) {
@@ -38,6 +42,18 @@ public class Main {
 		// Test Adding User to Database
 //		User nam = UserFactory.generateUser("student", "nam13@yorku.ca", "aQQ11@@", "s2222");
 //		System.out.println(nam);
+		
+		//Show GUI
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				MainWindow main = new MainWindow();
+				main.show();
+			}
+			
+		});
 	}
 
 }
