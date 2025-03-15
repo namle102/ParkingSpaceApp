@@ -1,5 +1,5 @@
 package yorku.eecs3311;
 
-public class ParkingSpace {
+public class ParkingSpace implements ParkingComponent {
 
 }
