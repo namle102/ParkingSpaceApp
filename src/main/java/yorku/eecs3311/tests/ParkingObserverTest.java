@@ -9,8 +9,8 @@ import yorku.eecs3311.AvailableParkingPublisher;
 
 public class ParkingObserverTest {
 	AvailableParkingPublisher publisher = new AvailableParkingPublisher();
-	TestParkingObserver observer = new TestParkingObserver(publisher);
-	TestParkingObserver observer2 = new TestParkingObserver(publisher);
+	RealizeParkingObserver observer = new RealizeParkingObserver(publisher);
+	RealizeParkingObserver observer2 = new RealizeParkingObserver(publisher);
 	@Test
 	public void test() {
 		publisher.notifyAllObservers();

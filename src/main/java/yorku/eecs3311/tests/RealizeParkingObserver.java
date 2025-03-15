@@ -3,11 +3,11 @@ package yorku.eecs3311.tests;
 import yorku.eecs3311.AvailableParkingObserver;
 import yorku.eecs3311.AvailableParkingPublisher;
 
-class TestParkingObserver extends AvailableParkingObserver {
+class RealizeParkingObserver extends AvailableParkingObserver {
 
 	private boolean _hasUpdated;
 	
-	public TestParkingObserver(AvailableParkingPublisher subject) {
+	public RealizeParkingObserver(AvailableParkingPublisher subject) {
 		this.subject = subject;
 		this.subject.attachObserver(this);
 	}
