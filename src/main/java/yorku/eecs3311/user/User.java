@@ -9,15 +9,22 @@ public abstract class User {
 	/*
 	 * Overloaded constructors
 	 */
+	public User(String email, String pwd, String id, double rate) {
+		this.email = email;
+		this.pwd = pwd;
+		this.id = id;
+		this.rate = rate;
+	}
+	
 	public User(String email, String pwd, String id) {
 		this.email = email;
 		this.pwd = pwd;
 		this.id = id;
 	}
 	
-	public User(String email, String pwd) {
-		this(email, pwd, null);
-	}
+//	public User(String email, String pwd) {
+//		this(email, pwd, null);
+//	}
 
 	// Getters
 	public String getEmail() { return email; }

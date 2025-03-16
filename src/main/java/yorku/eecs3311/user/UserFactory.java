@@ -15,7 +15,7 @@ public class UserFactory {
 			return new Staff(email, pwd, id);
 		}
 		else if (type.equalsIgnoreCase("visitor")) {
-			return new Visitor(email, pwd);
+			return new Visitor(email, pwd, id);
 		}
 		else {
 			return null;

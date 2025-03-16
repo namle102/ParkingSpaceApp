@@ -4,12 +4,15 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import yorku.eecs3311.manager.ManagerAccount;
+import yorku.eecs3311.user.LoggedInUser;
 import yorku.eecs3311.user.User;
 
 public class Database {
@@ -18,13 +21,11 @@ public class Database {
 	private static final String IDS_FILE = "src/main/resources/ids.csv";
 	private static final String USERS_FILE = "src/main/resources/users.csv";
 	private static final String MANAGERS_FILE = "src/main/resources/managers.csv";
-	private Set<String> registeredEmails;
+	private Map<String, List<String>> registeredUsers;
 	private Set<String> validUserIDs;
-	private Map<String, String> registeredCredentials;
 	
 	private Database() {
-		registeredEmails = new HashSet<>();
-		registeredCredentials = new HashMap<>();
+		registeredUsers = new HashMap<>();
 		validUserIDs = new HashSet<>();
 		loadUsersFromFile();
 		loadValidUserIDsFromFile();
@@ -45,9 +46,13 @@ public class Database {
 			String line;
 			while ((line = reader.readLine()) != null) {
 				String[] data = line.split(",");
-				if (data.length > 1) {
-					registeredEmails.add(data[0].trim());
-					registeredCredentials.put(data[0], data[1]);
+				if (data.length == 4) {
+					// Load users
+					List<String> pwdIdRate = new ArrayList<>(3);
+					pwdIdRate.add(data[1]);
+					pwdIdRate.add(data[2]);
+					pwdIdRate.add(data[3]);
+					registeredUsers.put(data[0].trim(), pwdIdRate);
 				}
 			}
 				
@@ -75,12 +80,12 @@ public class Database {
 	
 	// Check if email is already registered (uses cache)
 	public boolean isEmailRegistered(String email) {
-		return registeredEmails.contains(email);
+		return registeredUsers.containsKey(email);
 	}
 	
 	// Check if credentials matched
 	public boolean isCredentialsMatched(String email, String pwd) {
-		return registeredCredentials.containsKey(email) && registeredCredentials.get(email).equals(pwd);
+		return registeredUsers.containsKey(email) && registeredUsers.get(email).get(0).equals(pwd);
 	}
 	
 	// Check if user ID exists with the correct type (uses cache)
@@ -90,15 +95,20 @@ public class Database {
 	
 	// Add user to the database
 	public void addUserToDatabase(User user) {
-		String email = user.getEmail();
-		
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(USERS_FILE, true))) {
 			
 			writer.newLine();
 			writer.write(user.getEmail() + "," + user.getPwd() + "," + user.getId() + "," + user.getRate());
 			
 			// Update cache
-			registeredEmails.add(email);
+			String email = user.getEmail();
+			List<String> userData = new ArrayList<>();
+	        userData.add(user.getPwd());
+	        userData.add(user.getId());
+	        userData.add(String.valueOf(user.getRate()));
+
+	        registeredUsers.put(email, userData);
+//			loadUsersFromFile();
 		
 		} catch (Exception e) {
 			System.out.println("[-] Failed adding user: " + e.getMessage());
@@ -133,6 +143,19 @@ public class Database {
 	    }
 	    
 	    return null;
+	}
+	
+	// Return the logged in user
+	public User getLoggedInUser(String email) {
+		List<String> pwdIdRate = new ArrayList<>(3);
+		pwdIdRate = registeredUsers.get(email);
+		
+		// Build a logged in user
+		String pwd = pwdIdRate.get(0);
+		String id = pwdIdRate.get(1);
+		double rate = Double.parseDouble(pwdIdRate.get(2));
+		
+		return new LoggedInUser(email, pwd, id, rate);
 	}
 	
 }
