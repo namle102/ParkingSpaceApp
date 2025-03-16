@@ -1,4 +1,4 @@
-package yorku.eecs3311;
+package yorku.eecs3311.parking;
 
 public enum ParkingRate {
 	STUDENT(5.0),

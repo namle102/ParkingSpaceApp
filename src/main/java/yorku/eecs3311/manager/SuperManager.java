@@ -1,9 +1,10 @@
-package yorku.eecs3311;
+package yorku.eecs3311.manager;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SuperManager {
+	
 	private static SuperManager instance;
 	private AutoAccountGeneration autoAccGen;
 	private List<ManagerAccount> managers;
@@ -21,7 +22,7 @@ public class SuperManager {
 		return instance;
 	}
 	
-	// Generate management teams account
+	// Generate manager account for management teams
 	public void generateManagerAccount() {
 		ManagerAccount managerAccount = autoAccGen.generateManagerAccount();
 		managers.add(managerAccount);
@@ -35,4 +36,5 @@ public class SuperManager {
 		}
 		System.out.println("======================================\n");
 	}
+	
 }

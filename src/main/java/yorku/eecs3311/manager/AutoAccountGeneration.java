@@ -1,20 +1,28 @@
-package yorku.eecs3311;
+package yorku.eecs3311.manager;
 
 import java.util.Random;
+import yorku.eecs3311.Database;
 
 public class AutoAccountGeneration {
-	public static ManagerAccount generateManagerAccount() {
-		ManagerAccount manager;
-		manager = new ManagerAccount(generateUsername(), generatePwd());
+	
+	private Database database;
+	
+	public AutoAccountGeneration() {
+		database = Database.getInstance();
+	}
+	
+	// Generate account manager and add to the database
+	public ManagerAccount generateManagerAccount() {
+		ManagerAccount manager = new ManagerAccount(generateUsername(), generatePwd());
 		
-		// Add newly created manager to the database
-		Database.addManagerToDatabase(manager);
+		database.addManagerToDatabase(manager);
 		System.out.println("[+] Manager account generated successfully: " + manager.getUsername());
 		
 		return manager;
 	}
 	
-	private static String generateUsername() {
+	// Generate random name
+	private String generateUsername() {
 		StringBuilder username = new StringBuilder();
 		String alphabet = "abcdefghijklmnopqrstuvwxyz";
 		Random rand = new Random();
@@ -27,7 +35,8 @@ public class AutoAccountGeneration {
 		return username.toString();
 	}
 	
-	private static String generatePwd() {
+	// Generate random password
+	private String generatePwd() {
 		StringBuilder pwd = new StringBuilder();
 		String hex = "0123456789abcdef";
 		Random rand = new Random();
@@ -39,4 +48,5 @@ public class AutoAccountGeneration {
 		
 		return pwd.toString();
 	}
+	
 }

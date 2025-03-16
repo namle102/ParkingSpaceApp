@@ -1,10 +1,15 @@
-package yorku.eecs3311;
+package yorku.eecs3311.controller;
+
+import yorku.eecs3311.model.ModelRegistration;
 
 public class ViewController {
+	
 	private ViewMain mainView;
+	private ModelRegistration registrationModel;
 	
 	public ViewController() {
 		mainView = new ViewMain(this);
+		registrationModel = new ModelRegistration();
 		
 		// create and add views
 		ViewHero heroView = new ViewHero(this);
@@ -29,4 +34,10 @@ public class ViewController {
 	public void showLoginView() {
 		mainView.showView("login");
 	}
+	
+	// Call the User Model to handle
+	public String registerUser(String type, String email, String pwd, String id) {
+		return registrationModel.registerUser(type, email, pwd, id);
+	}
+	
 }
