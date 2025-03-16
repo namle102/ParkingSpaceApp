@@ -1,4 +1,4 @@
-package yorku.eecs3311;
+package yorku.eecs3311.observer;
 
 import yorku.eecs3311.Observer;
 import yorku.eecs3311.AvailableParkingPublisher;

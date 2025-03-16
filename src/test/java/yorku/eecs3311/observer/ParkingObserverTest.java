@@ -1,4 +1,4 @@
-package yorku.eecs3311;
+package yorku.eecs3311.observer;
 
 import static org.junit.Assert.*;
 
