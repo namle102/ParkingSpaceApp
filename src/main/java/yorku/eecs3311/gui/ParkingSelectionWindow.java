@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
-import yorku.eecs3311.ParkingSpace;
+import yorku.eecs3311.parking.ParkingSpace;
 import yorku.eecs3311.gui.list.ListElement;
 
 public class ParkingSelectionWindow {
