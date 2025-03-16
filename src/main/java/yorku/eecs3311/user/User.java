@@ -1,4 +1,4 @@
-package yorku.eecs3311;
+package yorku.eecs3311.user;
 
 public abstract class User {
 	private String email;

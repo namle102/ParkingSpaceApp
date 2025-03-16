@@ -1,4 +1,4 @@
-package yorku.eecs3311;
+package yorku.eecs3311.controller;
 
 import java.awt.*;
 import javax.swing.*;
@@ -9,7 +9,7 @@ public class ViewHero extends JPanel {
     public ViewHero(ViewController controller) {
         this.controller = controller;
 
-        // center layout
+        // Center layout
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0; // center horizontally
@@ -17,21 +17,21 @@ public class ViewHero extends JPanel {
         gbc.insets = new Insets(10, 0, 10, 0); // add vertical spacing
         gbc.anchor = GridBagConstraints.CENTER; // align center
 
-        // welcome text
+        // Welcome text
         JLabel welcomeLabel = new JLabel("Welcome to YorkU Parking Booking App", SwingConstants.CENTER);
         welcomeLabel.setFont(new Font("Arial", Font.BOLD, 16));
         
-        // sign up text and button + listener
+        // Sign up text and button + listener
         JLabel signUpText = new JLabel("New to our app?", SwingConstants.CENTER);
         JButton signupBtn = new JButton("Sign Up");
         signupBtn.addActionListener(e -> controller.showRegistrationView());
 
-        // login text and button + listener
+        // Login text and button + listener
         JLabel loginText = new JLabel("Already a member?", SwingConstants.CENTER);
         JButton loginBtn = new JButton("Log In");
         loginBtn.addActionListener(e -> controller.showLoginView());
 
-        // add components in order
+        // Add components in order
         add(welcomeLabel, gbc);
         add(signUpText, gbc);
         add(signupBtn, gbc);

@@ -6,6 +6,8 @@ import java.awt.Image;
 import javax.lang.model.element.NestingKind;
 import javax.swing.*;
 
+import yorku.eecs3311.controller.ViewController;
+
 public class Main {
 
 	public static void main(String[] args) {

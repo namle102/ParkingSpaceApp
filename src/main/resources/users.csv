@@ -1,7 +1,5 @@
-email,pwd
-e1@yorku.ca,qqWW11@@
-e2@yorku.ca,zzXX22&&
-e3@yorku.ca,llAA^^55
-nam@yorku.ca,aaQQ11@@
-nam1@yorku.ca,aaQQ11@@
-nam12@yorku.ca,aaQQ11@@
+email,pwd,id,rate
+aaa@bbb.com,aa@@33DD,s111,5.0
+cc@dd.ca,ll@@KK88,f555,8.0
+tt@gmail.com,qq22EE!!,t333,10.0
+yy@hot.yorku,aaAA22@@,null,15.0

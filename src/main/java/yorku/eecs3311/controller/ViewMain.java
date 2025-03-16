@@ -1,6 +1,7 @@
-package yorku.eecs3311;
+package yorku.eecs3311.controller;
 
 import javax.swing.*;
+
 import java.awt.*;
 
 public class ViewMain extends JFrame {
@@ -12,26 +13,26 @@ public class ViewMain extends JFrame {
 	public ViewMain(ViewController controller) {
 		this.controller = controller;
 		
-		// set up the main frame facing users
+		// Set up the main frame facing users
 		setTitle("YorkU Parking Booking App");
 		setSize(900, 900);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		
-		// set up the main panel (container)
+		// Set up the main panel (container)
 		cardLayout = new CardLayout();
 		mainPanel = new JPanel(cardLayout);
 		
-		// add main panel to the frame
+		// Add main panel to the frame
 		add(mainPanel);
 	}
 	
-	// add different views to the main window
+	// Add different views to the main window
 	public void addView(String name, JPanel panel) {
 		mainPanel.add(panel, name);
 	}
 	
-	// switch between views
+	// Switch between views
 	public void showView(String name) {
 		cardLayout.show(mainPanel, name);
 	}

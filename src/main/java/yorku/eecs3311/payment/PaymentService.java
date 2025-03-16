@@ -1,4 +1,4 @@
-package yorku.eecs3311;
+package yorku.eecs3311.payment;
 
 public interface PaymentService {
 

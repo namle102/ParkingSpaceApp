@@ -1,4 +1,4 @@
-package yorku.eecs3311;
+package yorku.eecs3311.parking;
 
 public class ParkingSpace implements ParkingComponent {
 	private int _id;
