@@ -1,21 +1,19 @@
-package yorku.eecs3311.tests;
+package yorku.eecs3311;
 
-import yorku.eecs3311.AvailableParkingObserver;
+import yorku.eecs3311.Observer;
 import yorku.eecs3311.AvailableParkingPublisher;
 
-class RealizeParkingObserver extends AvailableParkingObserver {
+class RealizeParkingObserver extends Observer {
 
 	private boolean _hasUpdated = false;
 	
 	public RealizeParkingObserver(AvailableParkingPublisher subject) {
-		this.subject = subject;
-		this.subject.attachObserver(this);
+		super(subject);
 	}
 	
 	@Override
 	public void update() {
 		_hasUpdated = true;
-		
 	}
 	
 	public boolean checkIfUpdated() {

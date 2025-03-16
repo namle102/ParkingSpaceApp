@@ -10,6 +10,10 @@ public abstract class Publisher {
 		this._observers.add(observer);
 	}
 	
+	public void removeObserver(Observer observer) {
+		this._observers.remove(observer);
+	}
+	
 	public void notifyAllObservers() {
 		for(Observer observer: _observers) {
 			observer.update();
