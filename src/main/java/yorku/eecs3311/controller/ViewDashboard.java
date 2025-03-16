@@ -30,6 +30,7 @@ public class ViewDashboard extends JPanel {
         logoutButton = new JButton("Log Out");
 
         // Action listeners
+        bookParkingButton.addActionListener(e -> controller.showBookingView());
         logoutButton.addActionListener(e -> controller.showHeroView());
 
         // Add components in order

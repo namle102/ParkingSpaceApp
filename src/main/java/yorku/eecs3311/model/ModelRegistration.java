@@ -45,7 +45,9 @@ public class ModelRegistration {
 		/*
 		 * After passing all checks above
 		 * We can create a user and add to the database
+		 * NOTE: If id == null, we will store it as "NA"
 		 */
+		if (id == null) id = "NA";
 		User user = UserFactory.generateUser(type, email, pwd, id);
 		database.addUserToDatabase(user);
 		
