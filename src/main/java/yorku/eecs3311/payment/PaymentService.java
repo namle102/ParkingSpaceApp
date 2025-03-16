@@ -13,4 +13,8 @@ public class PaymentService {
 	public boolean pay(double amount) {
 		return this._strategy.pay(amount);
 	}
+	
+	public boolean refund(double amount) {
+		return this._strategy.refund(amount);
+	}
 }

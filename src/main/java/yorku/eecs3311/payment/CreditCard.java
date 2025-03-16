@@ -9,5 +9,10 @@ public class CreditCard extends PaymentStrategy{
 		System.out.printf("Paid %.2f with Credit Card Successfully!", amount);
 		return true;
 	}
-	
+
+	@Override
+	public boolean refund(double amount) {
+		System.out.printf("Refunded %.2f to Credit Card Successfully!", amount);
+		return true;
+	}
 }

@@ -1,4 +1,4 @@
-package strategy;
+package yorku.eecs3311.strategy;
 
 import static org.junit.Assert.assertEquals;
 
@@ -47,6 +47,15 @@ public class PaymentServiceTest {
 
 		assertEquals(String.format("Paid %.2f with Debit Card Successfully!", payAmount), outContent.toString());
 		
+	}
+	
+	@Test
+	public void refund_test() {
+		double payAmount = 1.5;
+		PaymentService service = new PaymentService(new CreditCard());
+		service.refund(payAmount);
+
+		assertEquals(String.format("Refunded %.2f to Credit Card Successfully!", payAmount), outContent.toString());
 	}
 	
 	@After

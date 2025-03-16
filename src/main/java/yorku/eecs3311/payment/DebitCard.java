@@ -10,4 +10,9 @@ public class DebitCard extends PaymentStrategy{
 		return true;
 	}
 
+	@Override
+	public boolean refund(double amount) {
+		System.out.printf("Refunded %.2f to Debit Card Successfully!", amount);
+		return true;
+	}
 }

@@ -10,4 +10,9 @@ public class MobilePayment extends PaymentStrategy {
 		return true;
 	}
 
+	@Override
+	public boolean refund(double amount) {
+		System.out.printf("Refunded %.2f to Mobile Payment Successfully!", amount);
+		return true;
+	}
 }
