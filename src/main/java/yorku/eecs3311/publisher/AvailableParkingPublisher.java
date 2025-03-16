@@ -1,6 +1,7 @@
-package yorku.eecs3311;
+package yorku.eecs3311.publisher;
 import java.util.List;
 
+import yorku.eecs3311.Publisher;
 import yorku.eecs3311.parking.ParkingComponent;
 
 public class AvailableParkingPublisher extends Publisher {

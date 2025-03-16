@@ -1,4 +1,6 @@
-package yorku.eecs3311;
+package yorku.eecs3311.observer;
+
+import yorku.eecs3311.Publisher;
 
 public abstract class Observer {
 	public abstract void update();
