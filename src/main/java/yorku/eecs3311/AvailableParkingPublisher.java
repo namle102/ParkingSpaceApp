@@ -1,6 +1,8 @@
 package yorku.eecs3311;
 import java.util.List;
 
+import yorku.eecs3311.parking.ParkingComponent;
+
 public class AvailableParkingPublisher extends Publisher {
 	private List<ParkingComponent> _parkingSpots;
 	public List<ParkingComponent> getParkingSpots(){
