@@ -12,7 +12,7 @@ public class ParkingObserverTest {
 	RealizeParkingObserver observer = new RealizeParkingObserver(publisher);
 	RealizeParkingObserver observer2 = new RealizeParkingObserver(publisher);
 	@Test
-	public void test() {
+	public void notify_test() {
 		publisher.notifyAllObservers();
 		assertTrue(observer.checkIfUpdated());
 		assertTrue(observer2.checkIfUpdated());
