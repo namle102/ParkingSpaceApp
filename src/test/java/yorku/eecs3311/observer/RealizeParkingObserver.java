@@ -1,7 +1,6 @@
 package yorku.eecs3311.observer;
 
-import yorku.eecs3311.Observer;
-import yorku.eecs3311.AvailableParkingPublisher;
+import yorku.eecs3311.publisher.AvailableParkingPublisher;
 
 class RealizeParkingObserver extends Observer {
 

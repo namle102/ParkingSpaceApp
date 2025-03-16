@@ -3,6 +3,8 @@ package yorku.eecs3311;
 import java.util.ArrayList;
 import java.util.List;
 
+import yorku.eecs3311.observer.Observer;
+
 public abstract class Publisher {
 	private List<Observer> _observers = new ArrayList<Observer>();
 	

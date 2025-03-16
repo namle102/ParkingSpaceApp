@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import yorku.eecs3311.AvailableParkingPublisher;
+import yorku.eecs3311.publisher.AvailableParkingPublisher;
 
 
 public class ParkingObserverTest {
