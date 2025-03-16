@@ -1,10 +1,5 @@
 email,pwd,id,rate
-aaa@bbb.com,aa@@33DD,s111,5.0
-cc@dd.ca,ll@@KK88,f555,8.0
-tt@gmail.com,qq22EE!!,t333,10.0
-yy@hot.yorku,aaAA22@@,NA,15.0
-nam@nam.com,11@@qqWW,t222,10.0
-emma@gmail.com,11@@qqWW,f111,8.0
-test@test.com,11@@qqWW,NA,15.0
-haha@haha.com,11@@qqWW,s555,5.0
-haha@haha.ca,11@@qqWW,s555,5.0
+nam@nam.com,11@@qqWW,s111,5.0
+emma@emma.com,11@@qqWW,s222,5.0
+haha@haha.com,11@@qqWW,f111,8.0
+kaka@kaka.com,11@@qqWW,NA,15.0

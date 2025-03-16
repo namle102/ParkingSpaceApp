@@ -79,8 +79,18 @@ public class Database {
 	}
 	
 	// Check if email is already registered (uses cache)
-	public boolean isEmailRegistered(String email) {
-		return registeredUsers.containsKey(email);
+	public boolean isEmailOrIdRegistered(String email, String id) {
+		if (registeredUsers.containsKey(email)) {
+			return true;
+		}
+		
+		for (List<String> pwdIdRate : registeredUsers.values()) {
+			if (pwdIdRate.get(1).equals(id)) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	// Check if credentials matched

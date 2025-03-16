@@ -20,8 +20,8 @@ public class ModelRegistration {
 		}
 				
 		// Validate duplicate email
-		if (database.isEmailRegistered(email)) {
-			return "[-] Email already exists. Please use a different email.";
+		if (database.isEmailOrIdRegistered(email, id)) {
+			return "[-] Email or ID already exists. Please use a different email or ID.";
 		}
 		
 		// Validate if ID matches type
