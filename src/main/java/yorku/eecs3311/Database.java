@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import yorku.eecs3311.manager.ManagerAccount;
@@ -18,11 +20,13 @@ public class Database {
 	private static final String MANAGERS_FILE = "src/main/resources/managers.csv";
 	private Set<String> registeredEmails;
 	private Set<String> validUserIDs;
+	private Map<String, String> registeredCredentials;
 	
 	private Database() {
 		registeredEmails = new HashSet<>();
+		registeredCredentials = new HashMap<>();
 		validUserIDs = new HashSet<>();
-		loadEmailsFromFile();
+		loadUsersFromFile();
 		loadValidUserIDsFromFile();
 	}
 	
@@ -35,7 +39,7 @@ public class Database {
 	}
 	
 	// Load email into memory for quick lookup
-	public void loadEmailsFromFile() {
+	private void loadUsersFromFile() {
 		try (BufferedReader reader = new BufferedReader(new FileReader(USERS_FILE))) {
 				
 			String line;
@@ -43,6 +47,7 @@ public class Database {
 				String[] data = line.split(",");
 				if (data.length > 1) {
 					registeredEmails.add(data[0].trim());
+					registeredCredentials.put(data[0], data[1]);
 				}
 			}
 				
@@ -52,7 +57,7 @@ public class Database {
 	}
 	
 	// Load user IDs along with their type into memory for quick lookup
-	public void loadValidUserIDsFromFile() {
+	private void loadValidUserIDsFromFile() {
 		try (BufferedReader reader = new BufferedReader(new FileReader(IDS_FILE))) {
 			
 			String line;
@@ -71,6 +76,11 @@ public class Database {
 	// Check if email is already registered (uses cache)
 	public boolean isEmailRegistered(String email) {
 		return registeredEmails.contains(email);
+	}
+	
+	// Check if credentials matched
+	public boolean isCredentialsMatched(String email, String pwd) {
+		return registeredCredentials.containsKey(email) && registeredCredentials.get(email).equals(pwd);
 	}
 	
 	// Check if user ID exists with the correct type (uses cache)

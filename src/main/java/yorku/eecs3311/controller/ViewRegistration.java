@@ -47,7 +47,7 @@ public class ViewRegistration extends JPanel {
         registerButton = new JButton("Register");
         backButton = new JButton("Back");
 
-        // Actions listeners
+        // Action listeners
         userTypeDropdown.addActionListener(e -> toggleIDField());
         registerButton.addActionListener(e -> registerUser());
         backButton.addActionListener(e -> controller.showHeroView());
