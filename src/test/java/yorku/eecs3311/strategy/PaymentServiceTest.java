@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import yorku.eecs3311.payment.CreditCard;
 import yorku.eecs3311.payment.DebitCard;
-import yorku.eecs3311.payment.PaymentService;
+import yorku.eecs3311.publisher.PaymentService;
 
 public class PaymentServiceTest {
 	private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
