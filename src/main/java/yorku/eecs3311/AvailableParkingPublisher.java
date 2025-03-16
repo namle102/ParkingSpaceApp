@@ -1,9 +1,7 @@
 package yorku.eecs3311;
-import java.util.ArrayList;
 import java.util.List;
 
-public class AvailableParkingPublisher {
-	private List<AvailableParkingObserver> _observers = new ArrayList<AvailableParkingObserver>();
+public class AvailableParkingPublisher extends Publisher {
 	private List<ParkingComponent> _parkingSpots;
 	public List<ParkingComponent> getParkingSpots(){
 		return this._parkingSpots;
@@ -17,16 +15,6 @@ public class AvailableParkingPublisher {
 	public void removeParkingSpot(ParkingComponent parkingSpot) {
 		this._parkingSpots.remove(parkingSpot);
 		this.notifyAllObservers();
-	}
-	
-	public void attachObserver(AvailableParkingObserver observer) {
-		this._observers.add(observer);
-	}
-	
-	public void notifyAllObservers() {
-		for(AvailableParkingObserver observer: _observers) {
-			observer.update();
-		}
 	}
 	
 }
