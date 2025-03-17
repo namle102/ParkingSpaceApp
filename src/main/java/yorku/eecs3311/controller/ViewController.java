@@ -1,40 +1,53 @@
 package yorku.eecs3311.controller;
 
+import java.util.List;
+
+import yorku.eecs3311.manager.ManagerAccount;
 import yorku.eecs3311.model.ModelLogin;
 import yorku.eecs3311.model.ModelRegistration;
-import yorku.eecs3311.user.User;
+import yorku.eecs3311.parking.ParkingSpace;
+import yorku.eecs3311.user.LoggedInUser;
 
 public class ViewController {
 	
+	private static ViewController instance = null;
 	private ViewMain mainView;
 	private ModelRegistration registrationModel;
 	private ModelLogin loginModel;
+	private LoggedInUser loggedInUser = null;
 	
-	// Keep track of the logged in user
-	private User loggedInUser = null;
-	public void setLoggedInUser(User loggedInUser) {
-		this.loggedInUser = loggedInUser;
-	}
-	
-	public ViewController() {
+	private ViewController() {
 		mainView = new ViewMain(this);
 		registrationModel = new ModelRegistration();
 		loginModel = new ModelLogin();
-		
+
 		// Create and add views
 		ViewHero heroView = new ViewHero(this);
 		ViewRegistration registrationView = new ViewRegistration(this);
 		ViewLogin loginView = new ViewLogin(this);
 		ViewDashboard dashboardView = new ViewDashboard(this);
-		
+
 		mainView.addView("hero", heroView);
 		mainView.addView("registration", registrationView);
 		mainView.addView("login", loginView);
 		mainView.addView("dashboard", dashboardView);
 		mainView.setVisible(true);
-		
+
 		// Start on Hero view
 		mainView.showView("hero");
+	}
+	
+	public static synchronized ViewController getInstance() {
+		if (instance == null) {
+			instance = new ViewController();
+		}
+		return instance;
+	}
+	
+	public void setLoggedInUser(LoggedInUser loggedInUser) {
+		this.loggedInUser = loggedInUser;
+		this.loggedInUser.update(ManagerAccount.getAvailableSpaces());
+	    System.out.println("[DEBUG] User Logged In. Available Spaces: " + this.loggedInUser.getAvailableSpaces().size());
 	}
 	
 	public void showHeroView() {
@@ -54,9 +67,14 @@ public class ViewController {
 	}
 	
 	public void showBookingView() {
-		ViewBooking bookingView = new ViewBooking(this, loggedInUser.getRate());
-		mainView.addView("booking", bookingView);
-		mainView.showView("booking");
+	    if (loggedInUser != null) {
+	        List<ParkingSpace> availableSpaces = loggedInUser.getAvailableSpaces();
+	        System.out.println("[DEBUG] Available Spaces for User: " + availableSpaces.size());
+
+	        ViewBooking bookingView = new ViewBooking(this, availableSpaces);
+	        mainView.addView("booking", bookingView);
+	        mainView.showView("booking");
+	    }
 	}
 	
 	// Call Model Registration to handle

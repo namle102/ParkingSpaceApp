@@ -1,48 +1,44 @@
 package yorku.eecs3311;
 
-import java.util.Date;
+import java.util.*;
 
-import yorku.eecs3311.observer.Observer;
-import yorku.eecs3311.parking.ParkingComponent;
-import yorku.eecs3311.publisher.PaymentService;
-import yorku.eecs3311.user.User;
+import yorku.eecs3311.parking.ParkingLot;
+import yorku.eecs3311.parking.ParkingSpace;
+import yorku.eecs3311.parking.TimeSlot;
+import yorku.eecs3311.user.LoggedInUser;
 
-public class Booking extends Observer{
+public class Booking {
 
-	private Date _start;
-	private Date _end;
-	private ParkingComponent _spot;
-	
-	private Booking(PaymentService subject) {
-		super(subject);
-		// TODO Auto-generated constructor stub
-	}
-	
-	public static Booking book(User user, ParkingComponent spot, Date start, Date end, PaymentService service) {
-		Booking booking = new Booking(service);
-		booking._start = start;
-		booking._end = end;
-		booking._spot = spot;
-		
-		return booking;
-	}
-	
-	public void checkout() {
-		// TODO
-	}
-	
-	public void extend(Date time) {
-		//TODO
-	}
+	private final ParkingSpace space;
+    private final String date;
+    private final List<String> timeSlots;
+    private final LoggedInUser user;
+    private static final List<Booking> allBookings = new ArrayList<>();
 
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	public void cancel() {
-		this.subject.removeObserver(this);
-	}
+    public Booking(ParkingSpace space, String date, List<String> timeSlots, LoggedInUser user) {
+        this.space = space;
+        this.date = date;
+        this.timeSlots = timeSlots;
+        this.user = user;
+    }
+
+    // Find first available space and create a booking
+    public static Booking createBooking(ParkingLot lot, String date, List<String> timeSlots, LoggedInUser user) {
+        for (ParkingSpace space : lot.getSpaces()) {
+            if (space.bookSlots(date, timeSlots)) {
+                Booking newBooking = new Booking(space, date, timeSlots, user);
+                allBookings.add(newBooking);
+                System.out.println("[+] Booking confirmed: " + newBooking);
+                return newBooking;
+            }
+        }
+        System.out.println("[-] No available spaces in " + lot.getLotName() + " at this time.");
+        return null;
+    }
+
+    @Override
+    public String toString() {
+        return "Booking: " + space.getSpaceLocation() + " on " + date + " for " + timeSlots;
+    }
 
 }

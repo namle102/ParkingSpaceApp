@@ -156,7 +156,7 @@ public class Database {
 	}
 	
 	// Return the logged in user
-	public User getLoggedInUser(String email) {
+	public LoggedInUser getLoggedInUser(String email) {
 		List<String> pwdIdRate = new ArrayList<>(3);
 		pwdIdRate = registeredUsers.get(email);
 		

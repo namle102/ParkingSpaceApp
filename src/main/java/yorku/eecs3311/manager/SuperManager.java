@@ -23,9 +23,22 @@ public class SuperManager {
 	}
 	
 	// Generate manager account for management teams
-	public void generateManagerAccount() {
+	public ManagerAccount generateManagerAccount() {
 		ManagerAccount managerAccount = autoAccGen.generateManagerAccount();
 		managers.add(managerAccount);
+		
+		// Assign lots and spaces when a manager is created
+		if (ManagerAccount.getLots().isEmpty()) { 
+	        managerAccount.addLot("A");  
+	        managerAccount.addLot("B");  
+	        managerAccount.setLotStatus("A", true); 
+	        managerAccount.setLotStatus("B", true); 
+	    }
+		
+		managerAccount.updateAvailableSpaces();
+	    managerAccount.notifySubscribers();
+		
+		return managerAccount;
 	}
 	
 	// Print manager accounts
