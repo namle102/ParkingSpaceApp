@@ -22,11 +22,15 @@ public class ParkingLot {
 
     // IMPORTANT: NEED TO KEEP TRACK OF THIS LIST
     public List<ParkingSpace> getSpaces() {
-    	if (!isEnabled) {
-    		return Collections.emptyList();
-    	}
     	return spaces;
     }
+    
+//    public List<ParkingSpace> getSpaces() {
+//    	if (!isEnabled) {
+//    		return Collections.emptyList();
+//    	}
+//    	return spaces;
+//    }
     
     // Enable a lot
     public void enable() {

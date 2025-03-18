@@ -155,9 +155,30 @@ public class Database {
 	    return null;
 	}
 	
-	// Return the logged in user
+	public List<ManagerAccount> loadManagers() {
+		List<ManagerAccount> managers = new ArrayList<>();
+		
+		try (BufferedReader reader = new BufferedReader(new FileReader(MANAGERS_FILE))) {
+	        
+			String line;
+	        while ((line = reader.readLine()) != null) {
+	            String[] data = line.split(",");
+	            if (data.length == 2) {
+	            	String username = data[0];
+	            	String pwd = data[1];
+	            	managers.add(new ManagerAccount(username, pwd));
+	            }
+	        }
+	    } catch (Exception e) {
+	        System.err.println("[-] Failed retrieving a manager account: " + e.getMessage());
+	    }
+		
+		return managers;
+	}
+	
+	// Get the logged in user
 	public LoggedInUser getLoggedInUser(String email) {
-		List<String> pwdIdRate = new ArrayList<>(3);
+		List<String> pwdIdRate = new ArrayList<>();
 		pwdIdRate = registeredUsers.get(email);
 		
 		// Build a logged in user

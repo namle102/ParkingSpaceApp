@@ -1,7 +1,7 @@
 package yorku.eecs3311;
 
 public interface Subject {
-	void addSubscriber(Subscriber sub);
-	void removeSubscriber(Subscriber sub);
-	void notifySubscribers();
+    static void addSubscriber(Subscriber sub) {}
+    static void removeSubscriber(Subscriber sub) {}
+    static void notifySubscribers() {}
 }

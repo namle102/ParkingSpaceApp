@@ -6,22 +6,22 @@ import yorku.eecs3311.parking.TimeSlot;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
-import java.util.ArrayList;
 
 public class ViewBooking extends JPanel {
-	
-	private ViewController controller;
+    
     private List<ParkingSpace> availableSpaces;
     private JComboBox<String> spaceComboBox;
     private JComboBox<String> dateComboBox;
     private JComboBox<Integer> durationComboBox;
     private JPanel timeSlotsPanel;
-    private JButton confirmButton;
+    private JButton nextButton, backButton;
     private String selectedTimeSlot;
-	
-	public ViewBooking(ViewController controller, List<ParkingSpace> availableSpaces) {
-		this.controller = controller;
+
+    public ViewBooking(ViewController controller, List<ParkingSpace> availableSpaces) {
+    	
         this.availableSpaces = availableSpaces;
+    	
+        // Central layout
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -30,11 +30,11 @@ public class ViewBooking extends JPanel {
         gbc.anchor = GridBagConstraints.CENTER;
 
         // Title
-        JLabel titleLabel = new JLabel("Select Parking Space");
+        JLabel titleLabel = new JLabel("Booking Phase 1", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
         add(titleLabel, gbc);
 
-        // Step 1: Choose Parking Location
+        // Step 1: Choose location
         add(new JLabel("Choose a Parking Location:"), gbc);
         spaceComboBox = new JComboBox<>();
         for (ParkingSpace space : availableSpaces) {
@@ -51,23 +51,34 @@ public class ViewBooking extends JPanel {
 
         // Step 3: Choose Duration
         add(new JLabel("Choose Duration (Hours):"), gbc);
-        durationComboBox = new JComboBox<>(new Integer[]{1, 2, 3, 4});
+        durationComboBox = new JComboBox<>(new Integer[]{1, 2, 3, 4, 5});
         add(durationComboBox, gbc);
 
-     // Step 4: Choose Start Time
+        // Step 4: Choose Start Time
         add(new JLabel("Choose Start Time:"), gbc);
         timeSlotsPanel = new JPanel(new GridLayout(5, 3, 5, 5));
         timeSlotsPanel.setPreferredSize(new Dimension(400, 200));
         add(timeSlotsPanel, gbc);
 
-        // Confirm Booking Button
-        confirmButton = new JButton("Confirm Booking");
-        confirmButton.setEnabled(false);
-        confirmButton.addActionListener(e -> confirmBooking());
-        add(confirmButton, gbc);
-	}
-	
-	private void updateDates() {
+        // Next button
+        nextButton = new JButton("Next");
+        nextButton.setEnabled(false);
+        nextButton.addActionListener(e -> controller.showBookingPlateView(
+                (String) spaceComboBox.getSelectedItem(),
+                (String) dateComboBox.getSelectedItem(),
+                selectedTimeSlot,
+                durationComboBox.getSelectedItem().toString()
+        ));
+        add(nextButton, gbc);
+
+        // Back button
+        backButton = new JButton("Back");
+        backButton.addActionListener(e -> controller.showDashboardView());
+        add(backButton, gbc);
+        
+    }
+
+    private void updateDates() {
         dateComboBox.removeAllItems();
         String selectedSpace = (String) spaceComboBox.getSelectedItem();
         if (selectedSpace == null) return;
@@ -77,15 +88,17 @@ public class ViewBooking extends JPanel {
                 for (String date : space.getAvailableDates()) {
                     dateComboBox.addItem(date);
                 }
+                dateComboBox.setSelectedIndex(0);
+                SwingUtilities.invokeLater(this::updateTimeSlots);
                 break;
             }
         }
     }
 
-	private void updateTimeSlots() {
+    private void updateTimeSlots() {
         timeSlotsPanel.removeAll();
-        confirmButton.setEnabled(false);  
-        selectedTimeSlot = null;  
+        nextButton.setEnabled(false);
+        selectedTimeSlot = null;
 
         String selectedSpace = (String) spaceComboBox.getSelectedItem();
         String selectedDate = (String) dateComboBox.getSelectedItem();
@@ -94,16 +107,13 @@ public class ViewBooking extends JPanel {
 
         for (ParkingSpace space : availableSpaces) {
             if (space.getSpaceLocation().equals(selectedSpace)) {
-                List<TimeSlot> slots = space.getSlotsForDate(selectedDate);
-                for (TimeSlot slot : slots) {
+                for (TimeSlot slot : space.getSlotsForDate(selectedDate)) {
                     JButton slotButton = new JButton(slot.getTime());
                     slotButton.setEnabled(slot.isAvailable());
-
                     slotButton.addActionListener(e -> {
                         selectedTimeSlot = slot.getTime();
-                        confirmButton.setEnabled(true);
+                        nextButton.setEnabled(true);
                     });
-
                     timeSlotsPanel.add(slotButton);
                 }
                 break;
@@ -113,58 +123,5 @@ public class ViewBooking extends JPanel {
         timeSlotsPanel.revalidate();
         timeSlotsPanel.repaint();
     }
-
-    private void confirmBooking() {
-        if (selectedTimeSlot == null) {
-            JOptionPane.showMessageDialog(this, "No time slot selected!", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        String selectedSpace = (String) spaceComboBox.getSelectedItem();
-        String selectedDate = (String) dateComboBox.getSelectedItem();
-        int duration = (int) durationComboBox.getSelectedItem();
-
-        for (ParkingSpace space : availableSpaces) {
-            if (space.getSpaceLocation().equals(selectedSpace)) {
-                List<String> timesToBook = getTimeSlotsForDuration(selectedTimeSlot, duration);
-                
-                if (timesToBook.isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "Invalid duration (exceeds 5 PM)", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-
-                boolean success = space.bookSlots(selectedDate, timesToBook);
-
-                if (success) {
-                    for (Component comp : timeSlotsPanel.getComponents()) {
-                        if (comp instanceof JButton) {
-                            JButton btn = (JButton) comp;
-                            if (timesToBook.contains(btn.getText())) {
-                                btn.setEnabled(false); // Keep slots grayed out
-                            }
-                        }
-                    }
-                    System.out.println("[DEBUG] Booked: " + timesToBook);
-                    controller.showDashboardView(); // Return to Dashboard after booking
-                } else {
-                    JOptionPane.showMessageDialog(this, "Some slots are already booked!", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-                break;
-            }
-        }
-    }
-
-    private List<String> getTimeSlotsForDuration(String startTime, int duration) {
-        List<String> times = new ArrayList<>();
-        int startHour = Integer.parseInt(startTime.split(":")[0]);
-
-        for (int i = 0; i < duration; i++) {
-            int currentHour = startHour + i;
-            if (currentHour >= 17) return new ArrayList<>(); 
-            times.add(currentHour + ":00");
-        }
-
-        return times;
-    }
-	
+    
 }
