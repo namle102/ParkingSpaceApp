@@ -2,6 +2,7 @@ package yorku.eecs3311.controller;
 
 import java.util.List;
 import yorku.eecs3311.manager.ManagerAccount;
+import yorku.eecs3311.model.ModelBooking;
 import yorku.eecs3311.model.ModelLogin;
 import yorku.eecs3311.model.ModelRegistration;
 import yorku.eecs3311.parking.ParkingSpace;
@@ -19,6 +20,7 @@ public class ViewController {
 	// Models
 	private ModelRegistration registrationModel;
 	private ModelLogin loginModel;
+	private ModelBooking bookingModel;
 	
 	// Booking info
 	private String selectedSpace;
@@ -48,6 +50,7 @@ public class ViewController {
 		
 		registrationModel = new ModelRegistration();
 		loginModel = new ModelLogin();
+		bookingModel = new ModelBooking();
 		
 		// Start on Hero view
 		showHeroView();
@@ -130,7 +133,7 @@ public class ViewController {
 	}
 	
 	/*
-	 * Helper methods
+	 * Calling model classes
 	 */
 	public String registerUser(String type, String email, String pwd, String id) {
 	    return registrationModel.registerUser(type, email, pwd, id);
@@ -143,7 +146,14 @@ public class ViewController {
 	    }
 	    return false;
 	}
-
+	
+	public boolean bookAParking() {
+		return bookingModel.bookAParking(selectedSpace, selectedDate, selectedTime, selectedDuration, selectedPlateNumber, selectedPaymentMethod);
+	}
+	
+	/*
+	 * Getters
+	 */
 	public String getSelectedSpace() { return selectedSpace; }
 	public String getSelectedDate() { return selectedDate; }
 	public String getSelectedTime() { return selectedTime; }

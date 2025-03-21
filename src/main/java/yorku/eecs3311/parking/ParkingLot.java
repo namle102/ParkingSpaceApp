@@ -25,12 +25,14 @@ public class ParkingLot {
     	return spaces;
     }
     
-//    public List<ParkingSpace> getSpaces() {
-//    	if (!isEnabled) {
-//    		return Collections.emptyList();
-//    	}
-//    	return spaces;
-//    }
+    public ParkingSpace getSpaceById(int spaceID) {
+    	for (ParkingSpace space : spaces) {
+    		if (space.getSpaceID() == spaceID) {
+    			return space;
+    		}
+    	}
+    	return null;
+    }
     
     // Enable a lot
     public void enable() {

@@ -39,8 +39,12 @@ public class ViewBookingConfirm extends JPanel {
         // Confirm button
         confirmButton = new JButton("Confirm");
         confirmButton.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "Booking Confirmed!", "Success", JOptionPane.INFORMATION_MESSAGE);
-            controller.showDashboardView();
+        	if (controller.bookAParking()) {
+        		JOptionPane.showMessageDialog(this, "Booking Confirmed!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                controller.showDashboardView();
+        	} else {
+        		JOptionPane.showMessageDialog(this, "Booking Failed. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+        	}
         });
         add(confirmButton, gbc);
         

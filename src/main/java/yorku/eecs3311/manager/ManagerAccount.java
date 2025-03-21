@@ -197,9 +197,20 @@ public class ManagerAccount implements Subject {
 	// Getters
 	public String getUsername() { return username; }
 	public String getPwd() { return pwd; }
+	
 	public static List<ParkingLot> getLots() {
 		return lots;
 	}
+	
+	public static ParkingLot getLotByName(String lotName) {
+		for (ParkingLot lot : lots) {
+			if (lot.getLotName().equalsIgnoreCase(lotName)) {
+				return lot;
+			}
+		}
+		return null;
+	}
+	
 	public static List<ParkingSpace> getAvailableSpaces() {
 		updateAvailableSpaces();
 	    return availableSpaces;
