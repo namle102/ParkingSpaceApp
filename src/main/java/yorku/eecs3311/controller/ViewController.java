@@ -1,6 +1,12 @@
 package yorku.eecs3311.controller;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
+
+import javax.swing.JOptionPane;
+
+import yorku.eecs3311.booking.Booking;
 import yorku.eecs3311.manager.ManagerAccount;
 import yorku.eecs3311.model.ModelBooking;
 import yorku.eecs3311.model.ModelLogin;
@@ -32,6 +38,7 @@ public class ViewController {
 	
 	private LoggedInUser loggedInUser;
 	List<ParkingSpace> availableSpaces;
+	List<Booking> bookings;
 	
 	public ViewController() {
 		loggedInUser = null;
@@ -116,6 +123,20 @@ public class ViewController {
 	    mainView.showView("bookingConfirm");
 	}
 	
+	public void showCancelView() {
+		if (loggedInUser != null) {
+			// Retrieve all bookings of user
+			bookings = bookingModel.getUnCancelledBookingsByEmail(loggedInUser.getEmail());
+			
+	        // Start cancel session
+	    	System.out.println("\n[*] Start Cancel Session for " + loggedInUser.getEmail());
+	             
+	        ViewCancel cancelView = new ViewCancel(this);
+	        mainView.addView("cancel", cancelView);
+	        mainView.showView("cancel");
+	    }
+	}
+	
 	/*
 	 * Start session for logged in user
 	 */
@@ -155,6 +176,15 @@ public class ViewController {
 				loggedInUser.getRate(), loggedInUser.getEmail());
 	}
 	
+	public boolean cancelABooking(int selectedID) {
+        Booking booking = bookings.stream()
+                                   .filter(b -> b.getBookingID() == selectedID)
+                                   .findFirst().orElse(null);
+        
+        // Delegate to Booking model
+        return (bookingModel.cancelABooking(booking));
+	}
+	
 	/*
 	 * Getters
 	 */
@@ -165,5 +195,6 @@ public class ViewController {
 	public String getSelectedPlateNumber() { return selectedPlateNumber; }
 	public String getSelectedPaymentMethod() { return selectedPaymentMethod; }
 	public LoggedInUser getLoggedInUser() { return loggedInUser; }
+	public List<Booking> getBookings() { return bookings; }
 	
 }

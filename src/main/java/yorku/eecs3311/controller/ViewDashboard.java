@@ -33,6 +33,7 @@ public class ViewDashboard extends JPanel {
         
         // Cancel button
         cancelBookingButton = new JButton("Cancel a Booking");
+        cancelBookingButton.addActionListener(e -> controller.showCancelView());
         add(cancelBookingButton, gbc);
         
         // Log out button

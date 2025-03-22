@@ -10,6 +10,7 @@ public class Booking {
 	private int bookingID;
 	private String lotName;
 	private int spaceID;
+	private String date;
 	private int startHour;
 	private int dur;
 	private String payment;
@@ -21,18 +22,22 @@ public class Booking {
 	private String email;
 	private double finalAmountCharged;
 	
-	public Booking(int bookingID, String lotName, int spaceID, int startHour, int dur, String payment, double deposit, String email) {
+	public Booking(int bookingID, String lotName, int spaceID, 
+				   String date, int startHour, int dur,
+				   String payment, double deposit, String email, 
+				   boolean isExtended, boolean isCancelled, boolean isCheckedOut) {
 		this.bookingID = bookingID;
 		this.lotName = lotName;
 		this.spaceID = spaceID;
+		this.date = date;
 		this.startHour = startHour;
 		this.dur = dur;
 		this.payment = payment;
 		this.deposit = deposit;
 		this.email = email;
-		this.isExtended = false;
-		this.isCancelled = false;
-		this.isCheckedOut = false;
+		this.isExtended = isExtended;
+		this.isCancelled = isCancelled;
+		this.isCheckedOut = isCheckedOut;
 	}
 	
 	/**
@@ -101,6 +106,7 @@ public class Booking {
 	public int getBookingID() { return bookingID; }
 	public String getLotName() { return lotName; }
 	public int getSpaceID() { return spaceID; }
+	public String getDate() { return date; }
 	public int getStartHour() { return startHour; }
 	public int getDur() { return dur; }
 	public String getPaymentMethod() { return payment; }

@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Set;
 
 import yorku.eecs3311.booking.Booking;
+import yorku.eecs3311.booking.BookingBuilder;
 import yorku.eecs3311.manager.ManagerAccount;
 import yorku.eecs3311.user.LoggedInUser;
 import yorku.eecs3311.user.User;
@@ -43,8 +44,45 @@ public class Database {
 		return instance;
 	}
 	
+	// Load bookings into memory for quick lookup
+	private void loadBookingsFromFile() {
+		bookingCache.clear(); // Always start fresh
+		
+		try (BufferedReader reader = new BufferedReader(new FileReader(BOOKINGS_FILE))) {
+			
+			reader.readLine(); // Skip header line	
+			String line;
+			while ((line = reader.readLine()) != null) {
+				String[] data = line.split(",");
+				if (data.length == 12) {
+					// Load bookings
+					Booking booking = new BookingBuilder()
+			        		.setBookingID(Integer.parseInt(data[0]))
+			        		.setLotName(data[1])
+			        		.setSpaceID(Integer.parseInt(data[2]))
+			        		.setDate(data[3])
+			        		.setStartHour(Integer.parseInt(data[4]))
+			        		.setDur(Integer.parseInt(data[5]))
+			        		.setPaymentMethod(data[6])
+			        		.setDeposit(Double.parseDouble(data[7]))
+			        		.setEmail(data[8])
+			        		.isExtended(Boolean.parseBoolean(data[9]))
+			        		.isCancelled(Boolean.parseBoolean(data[10]))
+			        		.isCheckedOut(Boolean.parseBoolean(data[11]))
+			        		.build();
+					bookingCache.add(booking);
+				}
+			}
+				
+		} catch (Exception e) {
+			System.out.println("[-] Failed to load bookings: " + e.getMessage());
+		}
+	}
+	
 	// Load email into memory for quick lookup
 	private void loadUsersFromFile() {
+		registeredUsers.clear(); // Always start fresh
+		
 		try (BufferedReader reader = new BufferedReader(new FileReader(USERS_FILE))) {
 				
 			String line;
@@ -67,6 +105,8 @@ public class Database {
 	
 	// Load user IDs along with their type into memory for quick lookup
 	private void loadValidUserIDsFromFile() {
+		validUserIDs.clear(); // Always start fresh
+		
 		try (BufferedReader reader = new BufferedReader(new FileReader(IDS_FILE))) {
 			
 			String line;
@@ -147,15 +187,14 @@ public class Database {
 			writer.newLine();
 			writer.write(
 					booking.getBookingID() + "," + booking.getLotName() + "," + 
-					booking.getSpaceID() + "," + booking.getStartHour() + "," +
-					booking.getDur() + "," + booking.getPaymentMethod() + "," + 
-					booking.getDeposit() + "," + booking.getEmail() + "," +
-					booking.isExtended() + "," + booking.isCancelled() + "," +
-					booking.isCheckedOut());
+					booking.getSpaceID() + "," + booking.getDate() + "," +
+					booking.getStartHour() + "," + booking.getDur() + "," + 
+					booking.getPaymentMethod() + "," + booking.getDeposit() + "," +
+					booking.getEmail() + "," + booking.isExtended() + "," +
+					booking.isCancelled() + "," + booking.isCheckedOut());
 			
-			// Update cache
-			bookingCache.add(booking);
-			
+			// Load cache
+			loadBookingsFromFile();
 		
 		} catch (Exception e) {
 			System.out.println("[-] Failed adding booking: " + e.getMessage());
@@ -219,14 +258,61 @@ public class Database {
 	    return bookingCache;
 	}
 	
-	// Get specific booking
-	public Booking findBookingByIDAndEmail(int id, String email) {
-	    for (Booking b : bookingCache) {
-	        if (b.getBookingID() == id && b.getEmail().equalsIgnoreCase(email)) {
-	            return b;
+	// Get bookings by email
+	public List<Booking> getUnCancelledBookingsByEmail(String email) {
+		loadBookingsFromFile();
+		List<Booking> bookings = new ArrayList<>();
+	    
+		for (Booking b : bookingCache) {
+	        if (b.getEmail().equalsIgnoreCase(email) && b.isCancelled() == false) {
+	            bookings.add(b);
 	        }
 	    }
-	    return null;
+	    
+		return bookings;
+	}
+	
+	public void cancelABooking(Booking booking) {
+	    // Load all bookings
+	    List<Booking> allBookings = getAllBookings();
+
+	    // Modify the matching booking
+	    for (Booking b : allBookings) {
+	        if (b.getBookingID() == booking.getBookingID() &&
+	            b.getEmail().equalsIgnoreCase(booking.getEmail())) {
+	            b.cancel(); // Mark as cancelled
+	            break;
+	        }
+	    }
+
+	    // Rewrite the CSV
+	    try (BufferedWriter writer = new BufferedWriter(new FileWriter(BOOKINGS_FILE))) {
+	        // Write header
+	        writer.write("id,lot,space,date,start,dur,payment,deposit,email,isExtended,isCancelled,isCheckedOut");
+	        writer.newLine();
+
+	        // Write all bookings
+	        for (Booking b : allBookings) {
+	            writer.write(
+	                b.getBookingID() + "," + b.getLotName() + "," +
+	                b.getSpaceID() + "," + b.getDate() + "," +
+	                b.getStartHour() + "," + b.getDur() + "," +
+	                b.getPaymentMethod() + "," + b.getDeposit() + "," +
+	                b.getEmail() + "," +
+	                b.isExtended() + "," + b.isCancelled() + "," +
+	                b.isCheckedOut()
+	            );
+	            writer.newLine();
+	        }
+	        
+	        // Update cache
+	        loadBookingsFromFile();
+	        
+	        System.out.println("\n[+] Booking cancelled successfully.");
+	        
+	    } catch (Exception e) {
+	        System.out.println("\n[-] Error writing to CSV: " + e.getMessage());
+	    }
 	}
 	
 }
