@@ -9,6 +9,7 @@ public class BookingBuilder {
     private int dur;
     private String payment;
     private double deposit;
+    private String email;
 
     public BookingBuilder setBookingID(int bookingID) {
         this.bookingID = bookingID;
@@ -44,9 +45,14 @@ public class BookingBuilder {
         this.deposit = deposit;
         return this;
     }
+    
+    public BookingBuilder setEmail(String email) {
+    	this.email = email;
+    	return this;
+    }
 
     public Booking build() {
-        return new Booking(bookingID, lotName, spaceID, startHour, dur, payment, deposit);
+        return new Booking(bookingID, lotName, spaceID, startHour, dur, payment, deposit, email);
     }
     
 }

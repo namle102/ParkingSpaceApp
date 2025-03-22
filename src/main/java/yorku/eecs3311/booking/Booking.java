@@ -18,9 +18,10 @@ public class Booking {
 	private boolean isCancelled;
 	private boolean isCheckedOut;
 	private double deposit;
+	private String email;
 	private double finalAmountCharged;
 	
-	public Booking(int bookingID, String lotName, int spaceID, int startHour, int dur, String payment, double deposit) {
+	public Booking(int bookingID, String lotName, int spaceID, int startHour, int dur, String payment, double deposit, String email) {
 		this.bookingID = bookingID;
 		this.lotName = lotName;
 		this.spaceID = spaceID;
@@ -28,6 +29,7 @@ public class Booking {
 		this.dur = dur;
 		this.payment = payment;
 		this.deposit = deposit;
+		this.email = email;
 		this.isExtended = false;
 		this.isCancelled = false;
 		this.isCheckedOut = false;
@@ -103,6 +105,7 @@ public class Booking {
 	public int getDur() { return dur; }
 	public String getPaymentMethod() { return payment; }
 	public double getDeposit() { return deposit; }
+	public String getEmail() { return email; }
     public double getFinalAmountCharged() { return finalAmountCharged; }
     public boolean isCancelled() { return isCancelled; }
     public boolean isCheckedOut() { return isCheckedOut; }
@@ -111,7 +114,7 @@ public class Booking {
 	@Override
 	public String toString() {
 		return "Booking [bookingID=" + bookingID + ", lotName=" + lotName + ", spaceID=" + spaceID + ", startHour="
-				+ startHour + ", dur=" + dur + "paid by: " + payment + "]";
+				+ startHour + ", dur=" + dur + ", paidBy: " + payment + "]";
 	}
 
 }

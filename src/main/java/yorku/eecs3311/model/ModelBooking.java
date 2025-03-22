@@ -15,7 +15,7 @@ public class ModelBooking {
 	
 	private Database database = Database.getInstance();
 	
-	public boolean bookAParking(String spaceLocation, String date, String time, String duration, String plate, String payment, double deposit) {
+	public boolean bookAParking(String spaceLocation, String date, String time, String duration, String plate, String payment, double deposit, String email) {
 		try {
 			// Get the parking lot and space
 	        String lotName = spaceLocation.substring(0, 1);
@@ -47,6 +47,7 @@ public class ModelBooking {
 	        		.setDur(dur)
 	        		.setPaymentMethod(payment)
 	        		.setDeposit(deposit)
+	        		.setEmail(email)
 	        		.build();
 	        
 	        database.addBookingToDatabase(booking);

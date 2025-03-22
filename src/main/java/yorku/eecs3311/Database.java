@@ -25,10 +25,12 @@ public class Database {
 	private static final String BOOKINGS_FILE = "src/main/resources/bookings.csv";
 	private Map<String, List<String>> registeredUsers;
 	private Set<String> validUserIDs;
+	private List<Booking> bookingCache;
 	
 	private Database() {
 		registeredUsers = new HashMap<>();
 		validUserIDs = new HashSet<>();
+		bookingCache = new ArrayList<>();
 		loadUsersFromFile();
 		loadValidUserIDsFromFile();
 	}
@@ -143,9 +145,16 @@ public class Database {
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(BOOKINGS_FILE, true))) {
 			
 			writer.newLine();
-			writer.write(booking.getBookingID() + "," + booking.getLotName() + "," + booking.getSpaceID() + "," + booking.getStartHour() + "," + booking.getDur() + "," + booking.getPaymentMethod() + "," + booking.getDeposit());
+			writer.write(
+					booking.getBookingID() + "," + booking.getLotName() + "," + 
+					booking.getSpaceID() + "," + booking.getStartHour() + "," +
+					booking.getDur() + "," + booking.getPaymentMethod() + "," + 
+					booking.getDeposit() + "," + booking.getEmail() + "," +
+					booking.isExtended() + "," + booking.isCancelled() + "," +
+					booking.isCheckedOut());
 			
 			// Update cache
+			bookingCache.add(booking);
 			
 		
 		} catch (Exception e) {
@@ -203,6 +212,21 @@ public class Database {
 		double rate = Double.parseDouble(pwdIdRate.get(2));
 		
 		return new LoggedInUser(email, pwd, id, rate);
+	}
+	
+	// Get the bookings
+	public List<Booking> getAllBookings() {
+	    return bookingCache;
+	}
+	
+	// Get specific booking
+	public Booking findBookingByIDAndEmail(int id, String email) {
+	    for (Booking b : bookingCache) {
+	        if (b.getBookingID() == id && b.getEmail().equalsIgnoreCase(email)) {
+	            return b;
+	        }
+	    }
+	    return null;
 	}
 	
 }

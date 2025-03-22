@@ -125,7 +125,8 @@ public class ViewController {
 		ManagerAccount.addSubscriber(loggedInUser);
 		loggedInUser.update(ManagerAccount.getAvailableSpaces());
 		
-		System.out.println("\n[+] User Logged In. Available Spaces: " + this.loggedInUser.getAvailableSpaces().size());
+		System.out.println("\n[+] User Logged In. Available Spaces: " + 
+							this.loggedInUser.getAvailableSpaces().size());
 	}
 	
 	public void updateAvailableSpaces() {
@@ -148,7 +149,10 @@ public class ViewController {
 	}
 	
 	public boolean bookAParking() {
-		return bookingModel.bookAParking(selectedSpace, selectedDate, selectedTime, selectedDuration, selectedPlateNumber, selectedPaymentMethod, loggedInUser.getRate());
+		return bookingModel.bookAParking(
+				selectedSpace, selectedDate, selectedTime, 
+				selectedDuration, selectedPlateNumber, selectedPaymentMethod, 
+				loggedInUser.getRate(), loggedInUser.getEmail());
 	}
 	
 	/*
