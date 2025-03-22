@@ -72,8 +72,8 @@ public class ModelBooking {
 	}
 	
 	// Get un-cancelled bookings by email
-	public List<Booking> getUnCancelledBookingsByEmail(String email) {
-		return database.getUnCancelledBookingsByEmail(email);
+	public List<Booking> getUCUCBookingsByEmail(String email) {
+		return database.getUCUCBookingsByEmail(email);
 	}
 	
 	// Cancel a booking

@@ -1,18 +1,18 @@
 package yorku.eecs3311.controller;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JOptionPane;
-
+import yorku.eecs3311.Database;
 import yorku.eecs3311.booking.Booking;
 import yorku.eecs3311.manager.ManagerAccount;
 import yorku.eecs3311.model.ModelBooking;
 import yorku.eecs3311.model.ModelLogin;
 import yorku.eecs3311.model.ModelPayment;
 import yorku.eecs3311.model.ModelRegistration;
+import yorku.eecs3311.parking.ParkingLot;
 import yorku.eecs3311.parking.ParkingSpace;
+import yorku.eecs3311.payment.PaymentStrategy;
 import yorku.eecs3311.user.LoggedInUser;
 
 public class ViewController {
@@ -85,6 +85,29 @@ public class ViewController {
 	            System.out.println("\n[-] No available parking spaces. Booking screen will not be shown.");
 	            return;
 	        }
+	    	
+	    	/*
+	    	 * IMPORTANT
+	    	 * Apply already booked time slots from past bookings
+	    	 */
+	    	List<Booking> confirmedBookings = Database.getInstance().getAllBookings();
+
+	    	for (Booking b : confirmedBookings) {
+	    	    if (!b.isCancelled() && !b.isCheckedOut()) {
+	    	        ParkingLot lot = ManagerAccount.getLotByName(b.getLotName());
+	    	        if (lot != null) {
+	    	            ParkingSpace space = lot.getSpaceById(b.getSpaceID());
+	    	            if (space != null) {
+	    	                // Rebuild time list
+	    	                List<String> bookedTimes = new ArrayList<>();
+	    	                for (int i = 0; i < b.getDur(); i++) {
+	    	                    bookedTimes.add((b.getStartHour() + i) + ":00");
+	    	                }
+	    	                space.bookSlots(b.getDate(), bookedTimes);
+	    	            }
+	    	        }
+	    	    }
+	    	}
 	        
 	        // Here we go
 	    	System.out.println("\n[*] Start Booking Session. Available Spaces: " + availableSpaces.size());
@@ -129,7 +152,7 @@ public class ViewController {
 	public void showCancelView() {
 		if (loggedInUser != null) {
 			// Retrieve all bookings of user
-			bookings = bookingModel.getUnCancelledBookingsByEmail(loggedInUser.getEmail());
+			bookings = bookingModel.getUCUCBookingsByEmail(loggedInUser.getEmail());
 			
 	        // Start cancel session
 	    	System.out.println("\n[*] Start Cancel Session for " + loggedInUser.getEmail());
@@ -198,8 +221,11 @@ public class ViewController {
                                    .filter(b -> b.getBookingID() == selectedID)
                                    .findFirst().orElse(null);
         
-        // Delegate to Booking model
-        return (bookingModel.cancelABooking(booking));
+        return bookingModel.cancelABooking(booking);
+	}
+	
+	public boolean checkoutBooking(Booking booking, PaymentStrategy strategy) {
+		return paymentModel.checkoutBooking(booking, strategy, loggedInUser.getRate());
 	}
 	
 	/*

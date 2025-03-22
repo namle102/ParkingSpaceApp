@@ -255,25 +255,10 @@ public class Database {
 		return new LoggedInUser(email, pwd, id, rate);
 	}
 	
-	// Get the bookings
+	// Get all bookings
 	public List<Booking> getAllBookings() {
-	    return bookingCache;
-	}
-	
-	// Get un-cancelled bookings by email
-	public List<Booking> getUnCancelledBookingsByEmail(String email) {
 		loadBookingsFromFile();
-		List<Booking> bookings = new ArrayList<>();
-	    
-		for (Booking b : bookingCache) {
-	        if (b.getEmail().equalsIgnoreCase(email) && 
-	        	b.isCancelled() == false) {
-	            
-	        	bookings.add(b);
-	        }
-	    }
-	    
-		return bookings;
+	    return bookingCache;
 	}
 	
 	// Get un-cancelled un-checkedout bookings by email
@@ -293,6 +278,7 @@ public class Database {
 		return bookings;
 	}
 	
+	// Update cancel booking
 	public void cancelABooking(Booking booking) {
 	    // Load all bookings
 	    List<Booking> allBookings = getAllBookings();
@@ -330,6 +316,50 @@ public class Database {
 	        loadBookingsFromFile();
 	        
 	        System.out.println("\n[+] Booking cancelled successfully.");
+	        
+	    } catch (Exception e) {
+	        System.out.println("\n[-] Error writing to CSV: " + e.getMessage());
+	    }
+	}
+	
+	// Update check out booking
+	public void checkoutABooking(Booking booking) {
+		// Load all bookings
+	    List<Booking> allBookings = getAllBookings();
+
+	    // Modify the matching booking
+	    for (Booking b : allBookings) {
+	        if (b.getBookingID() == booking.getBookingID() &&
+	            b.getEmail().equalsIgnoreCase(booking.getEmail())) {
+	            b.checkout(); // Mark as checked out
+	            break;
+	        }
+	    }
+
+	    // Rewrite the CSV
+	    try (BufferedWriter writer = new BufferedWriter(new FileWriter(BOOKINGS_FILE))) {
+	        // Write header
+	        writer.write("id,lot,space,date,start,dur,payment,deposit,email,isExtended,isCancelled,isCheckedOut");
+	        writer.newLine();
+
+	        // Write all bookings
+	        for (Booking b : allBookings) {
+	            writer.write(
+	                b.getBookingID() + "," + b.getLotName() + "," +
+	                b.getSpaceID() + "," + b.getDate() + "," +
+	                b.getStartHour() + "," + b.getDur() + "," +
+	                b.getPaymentMethod() + "," + b.getDeposit() + "," +
+	                b.getEmail() + "," +
+	                b.isExtended() + "," + b.isCancelled() + "," +
+	                b.isCheckedOut()
+	            );
+	            writer.newLine();
+	        }
+	        
+	        // Update cache
+	        loadBookingsFromFile();
+	        
+	        System.out.println("\n[+] Booking checked out successfully.");
 	        
 	    } catch (Exception e) {
 	        System.out.println("\n[-] Error writing to CSV: " + e.getMessage());

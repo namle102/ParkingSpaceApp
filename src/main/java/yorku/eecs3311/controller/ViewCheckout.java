@@ -5,6 +5,10 @@ import java.awt.*;
 import java.util.List;
 
 import yorku.eecs3311.booking.Booking;
+import yorku.eecs3311.payment.CreditCard;
+import yorku.eecs3311.payment.DebitCard;
+import yorku.eecs3311.payment.MobilePayment;
+import yorku.eecs3311.payment.PaymentStrategy;
 
 public class ViewCheckout extends JPanel {
 	
@@ -13,6 +17,7 @@ public class ViewCheckout extends JPanel {
     private JTextField cardField, expiryField, cvvField, phoneField;
     private JPanel cardPanel, phonePanel;
     private JButton checkoutButton, backButton;
+    private PaymentStrategy strategy;
 
 	public ViewCheckout(ViewController controller) {
 		
@@ -62,7 +67,65 @@ public class ViewCheckout extends JPanel {
         
         // Buttons
         checkoutButton = new JButton("Checkout");
-        // ActionListener: to be added later
+        
+        /*
+         * Validate payment fields
+         */
+        checkoutButton.addActionListener(e -> {
+            int selectedID = (int) bookingComboBox.getSelectedItem();
+            Booking selected = bookings.stream()
+                                       .filter(b -> b.getBookingID() == selectedID)
+                                       .findFirst().orElse(null);
+
+            if (selected == null) return;
+
+            String method = selected.getPaymentMethod();
+            boolean valid = false;
+
+            // Validate payment fields
+            if (method.equalsIgnoreCase("Mobile Phone")) {
+                String phone = phoneField.getText().trim();
+                valid = phone.matches("\\d{10}");
+                if (!valid) {
+                    JOptionPane.showMessageDialog(this, "Enter valid 10-digit phone number.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            } else {
+                String card = cardField.getText().trim();
+                String expiry = expiryField.getText().trim();
+                String cvv = cvvField.getText().trim();
+                valid = card.matches("\\d{12,16}") && expiry.matches("\\d{4}") && cvv.matches("\\d{3}");
+                if (!valid) {
+                    JOptionPane.showMessageDialog(this, "Enter valid card info.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            }
+            
+            // Payment strategy
+            switch (selected.getPaymentMethod().toLowerCase()) {
+                case "credit card":
+                    strategy = new CreditCard(); break;
+                case "debit card":
+                    strategy = new DebitCard(); break;
+                case "mobile phone":
+                    strategy = new MobilePayment(); break;
+                default:
+                    JOptionPane.showMessageDialog(this, "Unknown payment method", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+            }
+
+            // Call controller
+            boolean success = controller.checkoutBooking(selected, strategy);
+            if (success) {
+                double charged = selected.getFinalAmountCharged();
+                JOptionPane.showMessageDialog(this,
+                    "Payment Successful!\nYou have been charged $" + charged + " via " + selected.getPaymentMethod(),
+                    "Success", JOptionPane.INFORMATION_MESSAGE);
+                controller.showDashboardView();
+            } else {
+                JOptionPane.showMessageDialog(this, "Checkout failed. This booking may have already been completed or cancelled.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
         add(checkoutButton, gbc);
 
         backButton = new JButton("Back");

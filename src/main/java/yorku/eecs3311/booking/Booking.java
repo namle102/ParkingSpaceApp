@@ -101,6 +101,9 @@ public class Booking {
     // Setters for status changes
     public void cancel() { isCancelled = true; }
     public void checkout() { isCheckedOut = true; }
+    public void setFinalAmountCharged(double finalCharge) {
+		this.finalAmountCharged = finalCharge;
+	}
 	
 	// Getters
 	public int getBookingID() { return bookingID; }
