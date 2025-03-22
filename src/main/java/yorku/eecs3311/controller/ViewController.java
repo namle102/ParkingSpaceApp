@@ -148,7 +148,7 @@ public class ViewController {
 	}
 	
 	public boolean bookAParking() {
-		return bookingModel.bookAParking(selectedSpace, selectedDate, selectedTime, selectedDuration, selectedPlateNumber, selectedPaymentMethod);
+		return bookingModel.bookAParking(selectedSpace, selectedDate, selectedTime, selectedDuration, selectedPlateNumber, selectedPaymentMethod, loggedInUser.getRate());
 	}
 	
 	/*
@@ -160,5 +160,6 @@ public class ViewController {
 	public String getSelectedDuration() { return selectedDuration; }
 	public String getSelectedPlateNumber() { return selectedPlateNumber; }
 	public String getSelectedPaymentMethod() { return selectedPaymentMethod; }
+	public LoggedInUser getLoggedInUser() { return loggedInUser; }
 	
 }

@@ -143,7 +143,7 @@ public class Database {
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(BOOKINGS_FILE, true))) {
 			
 			writer.newLine();
-			writer.write(booking.getBookingID() + "," + booking.getLotName() + "," + booking.getSpaceID() + "," + booking.getStartHour() + "," + booking.getDur());
+			writer.write(booking.getBookingID() + "," + booking.getLotName() + "," + booking.getSpaceID() + "," + booking.getStartHour() + "," + booking.getDur() + "," + booking.getPaymentMethod() + "," + booking.getDeposit());
 			
 			// Update cache
 			

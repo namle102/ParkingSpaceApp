@@ -7,6 +7,8 @@ public class BookingBuilder {
     private int spaceID;
     private int startHour;
     private int dur;
+    private String payment;
+    private double deposit;
 
     public BookingBuilder setBookingID(int bookingID) {
         this.bookingID = bookingID;
@@ -32,9 +34,19 @@ public class BookingBuilder {
         this.dur = dur;
         return this;
     }
+    
+    public BookingBuilder setPaymentMethod(String method) {
+        this.payment = method;
+        return this;
+    }
+
+    public BookingBuilder setDeposit(double deposit) {
+        this.deposit = deposit;
+        return this;
+    }
 
     public Booking build() {
-        return new Booking(bookingID, lotName, spaceID, startHour, dur);
+        return new Booking(bookingID, lotName, spaceID, startHour, dur, payment, deposit);
     }
     
 }

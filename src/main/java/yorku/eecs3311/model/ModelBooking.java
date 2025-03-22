@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import yorku.eecs3311.Database;
 import yorku.eecs3311.booking.Booking;
 import yorku.eecs3311.booking.BookingBuilder;
 import yorku.eecs3311.manager.ManagerAccount;
@@ -12,7 +13,9 @@ import yorku.eecs3311.parking.ParkingSpace;
 
 public class ModelBooking {
 	
-	public boolean bookAParking(String spaceLocation, String date, String time, String duration, String plate, String payment) {
+	private Database database = Database.getInstance();
+	
+	public boolean bookAParking(String spaceLocation, String date, String time, String duration, String plate, String payment, double deposit) {
 		try {
 			// Get the parking lot and space
 	        String lotName = spaceLocation.substring(0, 1);
@@ -35,19 +38,19 @@ public class ModelBooking {
 	        
 	        // Create booking
 	        int bookingID = new Random().nextInt(90000) + 10000;
+	        
 	        Booking booking = new BookingBuilder()
 	        		.setBookingID(bookingID)
 	        		.setLotName(lotName)
 	        		.setSpaceID(spaceID)
 	        		.setStartHour(startHour)
 	        		.setDur(dur)
+	        		.setPaymentMethod(payment)
+	        		.setDeposit(deposit)
 	        		.build();
 	        
-	        
-	        
-	        
-	        
-	        
+	        database.addBookingToDatabase(booking);
+	        System.out.println("\n[+] Booking Created: ID #" + bookingID + " | " + booking);
 	        
 		} catch (Exception e) {
 			// TODO: handle exception

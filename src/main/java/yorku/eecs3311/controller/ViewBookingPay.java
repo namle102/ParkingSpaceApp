@@ -6,9 +6,14 @@ import java.awt.*;
 public class ViewBookingPay extends JPanel {
 
 	private JComboBox<String> paymentMethodComboBox;
+	private JCheckBox confirmDepositCheckbox;
     private JButton nextButton, backButton;
+    private double userRate;
 
     public ViewBookingPay(ViewController controller) {
+    	
+    	// Get the logged-in user's rate
+        userRate = controller.getLoggedInUser().getRate();
     	
     	// Central layout
     	setLayout(new GridBagLayout());
@@ -28,6 +33,11 @@ public class ViewBookingPay extends JPanel {
         paymentMethodComboBox = new JComboBox<>(new String[]{"Select...", "Credit Card", "Debit Card", "Mobile Phone"});
         paymentMethodComboBox.addActionListener(e -> nextButton.setEnabled(!paymentMethodComboBox.getSelectedItem().equals("Select...")));
         add(paymentMethodComboBox, gbc);
+        
+        // Step 2: Deposit confirmation
+        confirmDepositCheckbox = new JCheckBox("I agree to pay a 1-hour deposit of $" + userRate);
+        confirmDepositCheckbox.addActionListener(e -> nextButton.setEnabled(confirmDepositCheckbox.isSelected()));
+        add(confirmDepositCheckbox, gbc);
 
         // Next button
         nextButton = new JButton("Next");
