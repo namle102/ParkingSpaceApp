@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.junit.validator.PublicClassValidator;
+
 import yorku.eecs3311.booking.Booking;
 import yorku.eecs3311.booking.BookingBuilder;
 import yorku.eecs3311.manager.ManagerAccount;
@@ -258,17 +260,36 @@ public class Database {
 	    return bookingCache;
 	}
 	
-	// Get bookings by email
+	// Get un-cancelled bookings by email
 	public List<Booking> getUnCancelledBookingsByEmail(String email) {
 		loadBookingsFromFile();
 		List<Booking> bookings = new ArrayList<>();
 	    
 		for (Booking b : bookingCache) {
-	        if (b.getEmail().equalsIgnoreCase(email) && b.isCancelled() == false) {
-	            bookings.add(b);
+	        if (b.getEmail().equalsIgnoreCase(email) && 
+	        	b.isCancelled() == false) {
+	            
+	        	bookings.add(b);
 	        }
 	    }
 	    
+		return bookings;
+	}
+	
+	// Get un-cancelled un-checkedout bookings by email
+	public List<Booking> getUCUCBookingsByEmail(String email) {
+		loadBookingsFromFile();
+		List<Booking> bookings = new ArrayList<>();
+		
+		for (Booking b : bookingCache) {
+			if (b.getEmail().equalsIgnoreCase(email) &&
+				b.isCancelled() == false &&
+				b.isCheckedOut() == false) {
+				
+				bookings.add(b);
+			}
+		}
+		
 		return bookings;
 	}
 	

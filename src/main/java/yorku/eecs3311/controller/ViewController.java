@@ -10,6 +10,7 @@ import yorku.eecs3311.booking.Booking;
 import yorku.eecs3311.manager.ManagerAccount;
 import yorku.eecs3311.model.ModelBooking;
 import yorku.eecs3311.model.ModelLogin;
+import yorku.eecs3311.model.ModelPayment;
 import yorku.eecs3311.model.ModelRegistration;
 import yorku.eecs3311.parking.ParkingSpace;
 import yorku.eecs3311.user.LoggedInUser;
@@ -27,6 +28,7 @@ public class ViewController {
 	private ModelRegistration registrationModel;
 	private ModelLogin loginModel;
 	private ModelBooking bookingModel;
+	private ModelPayment paymentModel;
 	
 	// Booking info
 	private String selectedSpace;
@@ -58,6 +60,7 @@ public class ViewController {
 		registrationModel = new ModelRegistration();
 		loginModel = new ModelLogin();
 		bookingModel = new ModelBooking();
+		paymentModel = new ModelPayment();
 		
 		// Start on Hero view
 		showHeroView();
@@ -134,6 +137,20 @@ public class ViewController {
 	        ViewCancel cancelView = new ViewCancel(this);
 	        mainView.addView("cancel", cancelView);
 	        mainView.showView("cancel");
+	    }
+	}
+	
+	public void showCheckoutView() {
+		if (loggedInUser != null) {
+			// Retrieve all bookings of user
+			bookings = paymentModel.getUCUCBookingsByEmail(loggedInUser.getEmail());
+			
+	        // Start cancel session
+	    	System.out.println("\n[*] Start Checkout Session for " + loggedInUser.getEmail());
+	             
+	        ViewCheckout checkoutView = new ViewCheckout(this);
+	        mainView.addView("checkout", checkoutView);
+	        mainView.showView("checkout");
 	    }
 	}
 	

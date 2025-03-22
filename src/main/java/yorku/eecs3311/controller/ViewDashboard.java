@@ -5,7 +5,11 @@ import javax.swing.*;
 
 public class ViewDashboard extends JPanel {
 	
-	private JButton bookParkingButton, extendParkingButton, cancelBookingButton, logoutButton;
+	private JButton bookParkingButton, 
+					extendParkingButton, 
+					cancelBookingButton,
+					checkoutButton,
+					logoutButton;
 	
 	public ViewDashboard(ViewController controller) {
      	
@@ -35,6 +39,11 @@ public class ViewDashboard extends JPanel {
         cancelBookingButton = new JButton("Cancel a Booking");
         cancelBookingButton.addActionListener(e -> controller.showCancelView());
         add(cancelBookingButton, gbc);
+        
+        // Checkout button
+        checkoutButton = new JButton("Checkout a Booking");
+        checkoutButton.addActionListener(e -> controller.showCheckoutView());
+        add(checkoutButton, gbc);
         
         // Log out button
         logoutButton = new JButton("Log Out");
