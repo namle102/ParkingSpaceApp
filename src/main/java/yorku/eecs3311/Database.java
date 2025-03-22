@@ -186,7 +186,7 @@ public class Database {
 	public void addBookingToDatabase(Booking booking) {
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(BOOKINGS_FILE, true))) {
 			
-			writer.newLine();
+//			writer.newLine();
 			writer.write(
 					booking.getBookingID() + "," + booking.getLotName() + "," + 
 					booking.getSpaceID() + "," + booking.getDate() + "," +
@@ -194,6 +194,7 @@ public class Database {
 					booking.getPaymentMethod() + "," + booking.getDeposit() + "," +
 					booking.getEmail() + "," + booking.isExtended() + "," +
 					booking.isCancelled() + "," + booking.isCheckedOut());
+			writer.newLine();
 			
 			// Load cache
 			loadBookingsFromFile();

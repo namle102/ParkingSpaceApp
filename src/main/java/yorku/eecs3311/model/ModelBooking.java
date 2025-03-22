@@ -86,8 +86,21 @@ public class ModelBooking {
         if (today.isBefore(bookedDate) || 
         	today.equals(bookedDate) && now.isBefore(bookingStart)) {
             
-        	// Cancel and update
-        	database.cancelABooking(booking);
+        	// Mark booking as cancelled
+            booking.cancel();
+
+            // Update CSV
+            database.cancelABooking(booking);
+        	
+        	// Release the time slots (un-gray them)
+        	ParkingLot lot = ManagerAccount.getLotByName(booking.getLotName());
+        	ParkingSpace space = lot.getSpaceById(booking.getSpaceID());
+        	List<String> slotsToRelease = new ArrayList<>();
+        	for (int i = 0; i < booking.getDur(); i++) {
+        	    slotsToRelease.add((booking.getStartHour() + i) + ":00");
+        	}
+        	space.releaseSlots(booking.getDate(), slotsToRelease);
+        	
             return true;
         }
         return false;
