@@ -14,6 +14,10 @@ import yorku.eecs3311.booking.BookingBuilder;
 import yorku.eecs3311.manager.ManagerAccount;
 import yorku.eecs3311.parking.ParkingLot;
 import yorku.eecs3311.parking.ParkingSpace;
+import yorku.eecs3311.payment.CreditCard;
+import yorku.eecs3311.payment.DebitCard;
+import yorku.eecs3311.payment.MobilePayment;
+import yorku.eecs3311.payment.PaymentStrategy;
 
 public class ModelBooking {
 	
@@ -71,7 +75,7 @@ public class ModelBooking {
 		return true;
 	}
 	
-	// Get un-cancelled bookings by email
+	// Get un-cancelled un-checkedout bookings by email
 	public List<Booking> getUCUCBookingsByEmail(String email) {
 		return database.getUCUCBookingsByEmail(email);
 	}
@@ -100,6 +104,25 @@ public class ModelBooking {
         	    slotsToRelease.add((booking.getStartHour() + i) + ":00");
         	}
         	space.releaseSlots(booking.getDate(), slotsToRelease);
+        	
+        	// Refund the deposit
+        	PaymentStrategy strategy = null;
+        	String method = booking.getPaymentMethod();
+        	
+        	switch (method.toLowerCase()) {
+			case "credit card":
+				strategy = new CreditCard();
+				break;
+			case "debit card":
+				strategy = new DebitCard();
+				break;
+			case "mobile phone":
+				strategy = new MobilePayment();
+				break;
+			default:
+				break;
+			}
+        	strategy.refund(booking.getDeposit());
         	
             return true;
         }
