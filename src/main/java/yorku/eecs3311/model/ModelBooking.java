@@ -80,6 +80,68 @@ public class ModelBooking {
 		return database.getUCUCBookingsByEmail(email);
 	}
 	
+	// Get un-extended (UCUC included) bookings by email
+	public List<Booking> getUEBookingsByEmail(String email) {
+		return database.getUEBookingsByEmail(email);
+	}
+	
+	// Extend a booking
+	public boolean extendABooking(Booking booking, int extraHours) {
+	    LocalDate today = LocalDate.now();
+	    LocalTime now = LocalTime.now();
+	    LocalDate bookedDate = LocalDate.parse(booking.getDate());
+	    int expiryHour = booking.getStartHour() + booking.getDur();
+	    LocalTime expiryTime = LocalTime.of(expiryHour, 0);
+
+	    // 1. Check if we are before expiry
+	    if (today.isBefore(bookedDate) || 
+	       (today.equals(bookedDate) && now.isBefore(expiryTime))) {
+
+	        String lotName = booking.getLotName();
+	        int spaceID = booking.getSpaceID();
+	        String date = booking.getDate();
+
+	        ParkingLot lot = ManagerAccount.getLotByName(lotName);
+	        ParkingSpace space = (lot != null) ? lot.getSpaceById(spaceID) : null;
+
+	        if (space == null) {
+	            System.out.println("\n[-] Parking space not found.");
+	            return false;
+	        }
+
+	        // 2. Mark all current bookings into their time slots to ensure accurate availability
+	        List<Booking> allBookings = Database.getInstance().getAllBookings();
+	        for (Booking b : allBookings) {
+	            if (!b.isCancelled() && !b.isCheckedOut()) {
+	                ParkingLot bookedLot = ManagerAccount.getLotByName(b.getLotName());
+	                ParkingSpace bookedSpace = (bookedLot != null) ? bookedLot.getSpaceById(b.getSpaceID()) : null;
+
+	                if (bookedSpace != null) {
+	                    List<String> timesToBlock = new ArrayList<>();
+	                    for (int i = 0; i < b.getDur(); i++) {
+	                        timesToBlock.add((b.getStartHour() + i) + ":00");
+	                    }
+	                    bookedSpace.bookSlots(b.getDate(), timesToBlock);
+	                }
+	            }
+	        }
+
+	        // 3. Validate extension
+	        if (booking.canExtend(extraHours, date, space)) {
+	            // 4. Perform extension and update CSV
+	            database.extendABooking(booking, extraHours, date, space);
+	            return true;
+	        } else {
+	            System.out.println("\n[-] Cannot extend: some time slots are unavailable.");
+	        }
+	    } else {
+	        System.out.println("\n[-] Cannot extend: booking already expired.");
+	    }
+
+	    return false;
+	}
+
+	
 	// Cancel a booking
 	public boolean cancelABooking(Booking booking) {
 		LocalDate today = LocalDate.now();
