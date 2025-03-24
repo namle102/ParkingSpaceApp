@@ -1,3 +1,1 @@
 id,lot,space,date,start,dur,payment,deposit,email,isExtended,isCancelled,isCheckedOut
-36781,A,1,2025-03-23,8,2,Credit Card,5.0,nam@nam.com,false,false,false
-14604,A,1,2025-03-23,13,5,Mobile Phone,15.0,kaka@kaka.com,false,false,false
