@@ -13,13 +13,14 @@ public class Car {
 	
 	// Simulate parking
 	public void park(ParkingSpace space) {
-	    space.getSensor().scanCarInfo(this.plateNumber);
+	    space.getSensor().scanCarInfo(this);
 	    space.getSensor().sendCarInfo();
 	}
 	
 	// Simulate leaving
 	public void unpark(ParkingSpace space) {
 	    space.getSensor().clearCarInfo();
+	    space.getSensor().sendCarInfo();
 	}
 
 	
