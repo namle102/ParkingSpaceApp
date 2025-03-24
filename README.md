@@ -22,4 +22,4 @@ This is a Maven-based Java application for managing parking space bookings at Yo
 
 1. Open a terminal in the project folder.
 2. Build the project: mvn clean package
-3. Run the app: java -jar target/ParkingSpaceApp-0.0.1-SNAPSHOT.jar
+3. Run the app: java -jar target/ParkingSpaceBookingApp-0.0.1-SNAPSHOT.jar
