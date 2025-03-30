@@ -45,29 +45,29 @@ public class ParkingAvailability {
     }
     
     // TEST
-    public static void main(String[] args) {
-        ParkingAvailability availability = new ParkingAvailability();
-        LocalDate selectedDate = LocalDate.now().plusDays(2); // Example date
-
-        // Display available slots
-        System.out.println("Available slots for " + selectedDate + ":");
-        for (TimeSlot slot : availability.getSlotsForDate(selectedDate)) {
-            System.out.println(slot);
-        }
-
-        // Book multiple slots
-        List<String> selectedSlots = Arrays.asList("9:00", "10:00", "11:00");
-        if (availability.bookSlots(selectedDate, selectedSlots)) {
-            System.out.println("\nSlots booked successfully: " + selectedSlots);
-        } else {
-            System.out.println("\nSlots could not be booked.");
-        }
-
-        // Show updated slots
-        System.out.println("\nUpdated slots for " + selectedDate + ":");
-        for (TimeSlot slot : availability.getSlotsForDate(selectedDate)) {
-            System.out.println(slot);
-        }
-    }
+//    public static void main(String[] args) {
+//        ParkingAvailability availability = new ParkingAvailability();
+//        LocalDate selectedDate = LocalDate.now().plusDays(2); // Example date
+//
+//        // Display available slots
+//        System.out.println("Available slots for " + selectedDate + ":");
+//        for (TimeSlot slot : availability.getSlotsForDate(selectedDate)) {
+//            System.out.println(slot);
+//        }
+//
+//        // Book multiple slots
+//        List<String> selectedSlots = Arrays.asList("9:00", "10:00", "11:00");
+//        if (availability.bookSlots(selectedDate, selectedSlots)) {
+//            System.out.println("\nSlots booked successfully: " + selectedSlots);
+//        } else {
+//            System.out.println("\nSlots could not be booked.");
+//        }
+//
+//        // Show updated slots
+//        System.out.println("\nUpdated slots for " + selectedDate + ":");
+//        for (TimeSlot slot : availability.getSlotsForDate(selectedDate)) {
+//            System.out.println(slot);
+//        }
+//    }
 	
 }
