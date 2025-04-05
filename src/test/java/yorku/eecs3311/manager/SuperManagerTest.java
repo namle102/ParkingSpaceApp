@@ -11,6 +11,7 @@ public class SuperManagerTest {
 	
 	@Test
 	public void SuperManagerInitTest() {
+		
 		SuperManager sm = SuperManager.getInstance();
 		
 		sm.generateManagerAccount();
@@ -18,4 +19,12 @@ public class SuperManagerTest {
 		List<ManagerAccount> managers = sm.getManagers();
 		assertEquals(false, managers.isEmpty());
 	}
+	
+	@Test
+	public void testShowManagerAccountsRuns() {
+	    SuperManager sm = SuperManager.getInstance();
+	    sm.generateManagerAccount();
+	    sm.showManagerAccounts();
+	}
+	
 }
