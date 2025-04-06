@@ -40,6 +40,14 @@
       	<groupId>org.jacoco</groupId>
       	<artifactId>jacoco-maven-plugin</artifactId>
       	<version>0.8.2</version>
+      	<configuration>
+    		<excludes>
+      			<exclude>yorku/eecs3311/controller/**</exclude>
+      			<exclude>yorku/eecs3311/model/**</exclude>
+      			<exclude>yorku/eecs3311/Main*</exclude>
+          		<exclude>yorku/eecs3311/Database*</exclude>
+    		</excludes>
+  		</configuration>
       	<executions>
         	<execution>
           		<goals>
