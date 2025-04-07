@@ -2,7 +2,7 @@ package yorku.eecs3311.user;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 public class StaffTest {
 

@@ -1,13 +1,12 @@
 package yorku.eecs3311.user;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import yorku.eecs3311.parking.ParkingSpace;
 
@@ -46,7 +45,9 @@ public class LoggedInUserTest {
     @Test
     public void testUpdateAvailableSpacesWithNonEmptyList() {
         LoggedInUser loggedInUser = new LoggedInUser("user@yorku.ca", "userpass", "u001", 10.0);
-        List<ParkingSpace> newSpaces = List.of(new ParkingSpace(1, "Lot A"), new ParkingSpace(2, "Lot B"));
+        List<ParkingSpace> newSpaces = new ArrayList<>();
+        newSpaces.add(new ParkingSpace(1, "Lot A"));
+        newSpaces.add(new ParkingSpace(2, "Lot B"));
         
         loggedInUser.update(newSpaces);
 

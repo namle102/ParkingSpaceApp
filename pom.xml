@@ -46,7 +46,6 @@
       			<exclude>yorku/eecs3311/model/**</exclude>e>
       			<exclude>yorku/eecs3311/Main*</exclude>
 			  	<exclude>yorku/eecs3311/Database*</exclude>
-			  	<exclude>yorku/eecs3311/SensorTest*</exclude>
   				<exclude>yorku/eecs3311/Subject*</exclude>
   				<exclude>yorku/eecs3311/Subscriber*</exclude>
     		</excludes>
