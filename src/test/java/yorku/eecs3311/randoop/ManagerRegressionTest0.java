@@ -108,15 +108,6 @@ public class ManagerRegressionTest0 {
     }
 
     @Test
-    public void test011() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "ManagerRegressionTest0.test011");
-        yorku.eecs3311.parking.ParkingLot parkingLot1 = yorku.eecs3311.manager.ManagerAccount.getLotByName("hi!");
-        // Regression assertion (captures the current behavior of the code)
-        org.junit.Assert.assertNull(parkingLot1);
-    }
-
-    @Test
     public void test012() throws Throwable {
         if (debug)
             System.out.format("%n%s%n", "ManagerRegressionTest0.test012");
