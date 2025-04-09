@@ -24,6 +24,40 @@
 
   <build>
     <plugins>
+	    <!-- Add randoop-tests as a test source directory -->
+	    <plugin>
+	      <groupId>org.codehaus.mojo</groupId>
+	      <artifactId>build-helper-maven-plugin</artifactId>
+	      <version>3.3.0</version>
+	      <executions>
+	        <execution>
+	          <id>add-test-source</id>
+	          <phase>generate-test-sources</phase>
+	          <goals>
+	              <goal>add-test-source</goal>
+	          </goals>
+	          <configuration>
+	              <sources>
+	                  <source>randoop-tests</source>
+	              </sources>
+	          </configuration>
+	        </execution>
+	      </executions>
+	    </plugin>
+	
+	    <!-- Ensure Surefire runs both manual and Randoop tests -->
+	    <plugin>
+	      <groupId>org.apache.maven.plugins</groupId>
+	      <artifactId>maven-surefire-plugin</artifactId>
+	      <version>2.22.2</version>
+	      <configuration>
+	          <includes>
+	              <include>**/*Test.java</include>  <!-- Manual tests (src/test/java) -->
+	              <include>**/*Test0.java</include> <!-- Randoop tests (randoop-tests/) -->
+	          </includes>
+	      </configuration>
+	    </plugin>
+    
       <!-- Compiler Plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -69,18 +103,18 @@
       </plugin>
       
       <!-- JAR Plugin to set the main class -->
-    <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-jar-plugin</artifactId>
-      <version>3.2.2</version>
-      <configuration>
-        <archive>
-          <manifest>
-            <mainClass>yorku.eecs3311.Main</mainClass>
-          </manifest>
-        </archive>
-      </configuration>
-    </plugin>
+      <plugin>
+      	<groupId>org.apache.maven.plugins</groupId>
+       	<artifactId>maven-jar-plugin</artifactId>
+      	<version>3.2.2</version>
+     	<configuration>
+        	<archive>
+          		<manifest>
+            		<mainClass>yorku.eecs3311.Main</mainClass>
+          		</manifest>
+        	</archive>
+      	</configuration>
+      </plugin>
     </plugins>
   </build>
 </project>
