@@ -29,9 +29,10 @@ public class BookingTest {
         }
     }
 
-
     @Test
     public void testConstructorAndGetters() {
+        booking = new Booking(1, "LotA", 101, "2025-04-06", 9, 2, "CreditCard", 10.0, "test@yorku.ca", false, false, false);
+
         assertEquals(1, booking.getBookingID());
         assertEquals("LotA", booking.getLotName());
         assertEquals(101, booking.getSpaceID());

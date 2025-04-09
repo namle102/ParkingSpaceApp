@@ -2,6 +2,7 @@ package yorku.eecs3311;
 
 import yorku.eecs3311.controller.ViewController;
 import yorku.eecs3311.manager.ManagerAccount;
+import yorku.eecs3311.manager.ManagerCLI;
 import yorku.eecs3311.manager.SuperManager;
 
 import java.util.List;
@@ -70,7 +71,8 @@ public class Main {
         for (ManagerAccount manager : managers) {
         	if (manager.getUsername().equals(username) && manager.getPwd().equals(password)) {
         		System.out.println("\n[+] Login successful. Welcome, " + username + "!");
-            	manager.startManagerCLI();  // Manager CLI starts
+//            	manager.startManagerCLI();
+            	ManagerCLI.startCLI(manager); // Manager CLI starts
             	return;
         	}
         }

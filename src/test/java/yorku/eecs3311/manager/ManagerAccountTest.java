@@ -234,6 +234,19 @@ public class ManagerAccountTest {
 		assertEquals(false, sub.isUpdated);
 		
 	}
+	
+	@Test
+	public void showAvailableSpacesTest() {
+	    ManagerAccount manager = new ManagerAccount("", "");
+
+	    redirectStream();  // Capture output
+	    manager.showAvailableSpaces();
+	    
+	    String output = get_std_out();
+	    
+	    // Just check it contains the summary line
+	    assertTrue(output.contains("[+] Total Available Spaces:"));
+	}
  	
 	@After
  	public void restoreStreams() {
