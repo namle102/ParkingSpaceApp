@@ -8,6 +8,14 @@ This is a Maven-based Java application for managing parking space bookings at Yo
 - src/main/resources/ – CSV data files
 - pom.xml – Maven configuration
 
+## How to Test
+
+### Manual Tests (src/test/java)
+*mvn clean test -Dtest="**/yorku/eecs3311/**/*Test.java"
+
+### Randoop Tests (randoop-tests)
+*mvn clean test -Dtest="**/yorku/eecs3311/**/*Test.java"
+
 ## How to Run
 
 ### Option 1: Run from Eclipse
