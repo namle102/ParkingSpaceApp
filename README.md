@@ -25,7 +25,7 @@ mvn clean test -Dtest="**/yorku/eecs3311/randoop/*Test0.java"
 1. Open the project in Eclipse.
 2. Go to src/main/java/yorku/eecs3311/Main.java
 3. Right-click Main.java → Run As → Java Application
-4. 
+
 ### Option 2: Run from Terminal
 1. Open a terminal in the project folder.
 2. Build the project: mvn clean package
