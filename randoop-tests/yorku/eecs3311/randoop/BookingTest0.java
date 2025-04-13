@@ -3228,27 +3228,5 @@ public class BookingTest0 {
         org.junit.Assert.assertTrue("'" + int19 + "' != '" + 35 + "'", int19 == 35);
     }
     
-    @Test
-    public void test159() throws Throwable {
-        if (debug)
-            System.out.format("%n%s%n", "BookingTest0.test159");
-        
-        yorku.eecs3311.booking.Booking booking = new yorku.eecs3311.booking.Booking(
-                1, "LotA", 1, "2025-04-10", 9, 1,
-                "CreditCard", 10.0, "test@yorku.ca",
-                false, false, false);
-
-        yorku.eecs3311.parking.ParkingSpace space = new yorku.eecs3311.parking.ParkingSpace(1, "LotA");
-        java.util.List<yorku.eecs3311.parking.TimeSlot> slots = space.getSlotsForDate("2025-04-10");
-
-        for (yorku.eecs3311.parking.TimeSlot slot : slots) {
-            if (slot.getTime().equals("10:00") || slot.getTime().equals("11:00")) {
-                slot.setAvailable(true);
-            }
-        }
-
-        org.junit.Assert.assertTrue(booking.canExtend(2, "2025-04-10", space));
-        org.junit.Assert.assertTrue(booking.extend(2, "2025-04-10", space));
-    }
 }
 

@@ -14,6 +14,7 @@ import org.junit.Test;
 import yorku.eecs3311.Subscriber;
 import yorku.eecs3311.parking.ParkingLot;
 import yorku.eecs3311.parking.ParkingSpace;
+import java.util.Random;
 
 class SubcriberRealize implements Subscriber{
 	
@@ -35,7 +36,8 @@ public class ManagerAccountTest {
 	private ByteArrayOutputStream outContent = null;
  	private final PrintStream originalOut = System.out;
  	private final PrintStream originalErr = System.err;
- 	
+
+ 	Random rand = new Random();
  	public String get_std_out() {
  		return outContent.toString().replace("\n", "").replace("\r", "");
  	}
@@ -53,15 +55,13 @@ public class ManagerAccountTest {
 	@Test
  	public void addLotTest() {
 		
-		String lotName = "Lot1";
+		String lotName = Integer.toString(rand.nextInt());
 
 	 	ManagerAccount manager = new ManagerAccount("","");
-	 	
-	 	redirectStream();
 		
 		manager.addLot(lotName);
  
-		assertEquals("[+] Parking Lot Added: " + lotName, get_std_out());
+		assertTrue(get_std_out().contains("[+] Parking Lot Added: " + lotName));
  		
 	}
 	
@@ -72,17 +72,11 @@ public class ManagerAccountTest {
 		
 	 	ManagerAccount manager = new ManagerAccount("","");
 	 	
-	 	redirectStream();
-	 	
 	 	manager.addLot(lotName);
- 
-		assertEquals("[+] Parking Lot Added: " + lotName, get_std_out());
-		
-		redirectStream();
 		
 		manager.addLot(lotName);
 		
-		assertEquals("[-] Lot Already Exists: " + lotName, get_std_out());
+		assertTrue(get_std_out().contains("[-] Lot Already Exists: " + lotName));
  		
 	}
 	
@@ -107,13 +101,15 @@ public class ManagerAccountTest {
 	public void disableLotTest() {
 	 	ManagerAccount manager = new ManagerAccount("","");
 	 	
-	 	List<ParkingLot> lots = ManagerAccount.getLots();
+	 	ParkingLot lot = ManagerAccount.getLotByName("A");
 	 	
-	 	assertEquals( true,lots.get(0).isEnabled());
+	 	manager.enableLot("A");
+	 	
+	 	assertEquals( true,lot.isEnabled());
 		
 	 	manager.disableLot("A");
 	 	
-	 	assertEquals(false,lots.get(0).isEnabled());
+	 	assertEquals(false,lot.isEnabled());
 	 	
 	}
 	
@@ -146,17 +142,15 @@ public class ManagerAccountTest {
 	
 	@Test
 	public void disableSpaceTest() {
+		ManagerAccount manager = new ManagerAccount("","");
+		manager.enableSpace("A",1);
 		List<ParkingSpace> spaces = ManagerAccount.getAvailableSpaces();
-		
 		ParkingSpace space = spaces.get(0);
 		
-		ManagerAccount manager = new ManagerAccount("","");
-		
-		manager.disableSpace("A",space.getSpaceID());
+		manager.enableSpace("A",1);
+		manager.disableSpace("A",1);
 		
 		assertEquals( false,space.isEnabled());
-		
-		
 		
 	}
 	

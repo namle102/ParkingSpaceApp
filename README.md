@@ -19,6 +19,27 @@ mvn clean test -Dtest="**/yorku/eecs3311/**/*Test.java"
 mvn clean test -Dtest="**/yorku/eecs3311/randoop/*Test0.java"
 ```
 
+## How to run PIT test
+Follow the instructions from https://github.com/pitest/pitclipse
+### Manual Tests (src/test/java) from Eclipse
+1. Open the project in Eclipse.
+2. Right click src/test/java → Run As → Run Configurations
+3. Right click PIT Mutation Test → New Configuration
+4. Select Run mutations against a package or directory
+5. Change the directory to src/test/java
+6. At the bottom in Preferences, change the Excluded classes field to yorku.eecs3311.model.*,yorku.eecs3311.controller.*, yorku.eecs3311.Database, yorku.eecs3311.Main,yorku.eecs3311.Subject, yorku.eecs3311.Subscriber, yorku.eecs3311.manager.ManagerCLI*
+7. Click Run
+
+### Randoop Tests (randoop-tests) from Eclipse
+1. Open the project in Eclipse.
+2. Right click src/test/java → Run As → Run Configurations
+3. Right click PIT Mutation Test → New Configuration
+4. Select Run mutations against a package or directory
+5. Change the directory to randoop-tests
+6. At the bottom in Preferences, change the Excluded classes field to yorku.eecs3311.model.*,yorku.eecs3311.controller.*, yorku.eecs3311.Database, yorku.eecs3311.Main,yorku.eecs3311.Subject, yorku.eecs3311.Subscriber, yorku.eecs3311.manager.ManagerCLI*
+7. Click Run
+
+
 ## How to Run
 *Make sure it can access the CSV files in src/main/resources.*
 ### Option 1: Run from Eclipse
